@@ -1,0 +1,8 @@
+.large-link {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.large-link:hover {
+    background-color: LightGray;
+}
