@@ -3,13 +3,21 @@ import React from 'react';
 
 
 // My library
-import Body from './body.jsx';
+import Charts from './charts.jsx'
 import Navigation from './navigation.jsx';
+import Today from './today.jsx'
 
 const Main = () => (
-    <div>
-        <Navigation />
-        <Body />
+    <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+        <div>
+            <Navigation />
+        </div>
+        <div>
+            <Today />
+        </div>
+        <div style={{flex: 1, overflow: 'auto'}}>
+            <Charts />
+        </div>
     </div>
 )
 

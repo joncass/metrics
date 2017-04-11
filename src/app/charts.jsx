@@ -13,8 +13,6 @@ const styles = {
     gridList: {
         width: '98%',
         padding: '1%',
-        height: 400,
-        overflow: 'auto',
     },
     paper: {
         width: '100%',
