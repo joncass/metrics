@@ -62,10 +62,12 @@ export default class Navigation extends React.Component {
                         <ListItem
                             primaryText="Source"
                             leftIcon={<CodeIcon />}
+                            onClick={window.open.bind(window, 'https://github.com/joncass/metrics')}
                         />
                         <ListItem
                             primaryText="Contact"
                             leftIcon={<EmailIcon />}
+                            onClick={window.open.bind(window, 'mailto:joncass@gmail.com')}
                         />
                         <ListItem
                             primaryText="2017"
@@ -79,6 +81,7 @@ export default class Navigation extends React.Component {
                         <ListItem
                             primaryText="Material UI"
                             leftIcon={<LayersIcon />}
+                            onClick={window.open.bind(window, 'http://material-ui.com/')}
                         />
                     </List>
                 </Drawer>
