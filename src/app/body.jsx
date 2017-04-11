@@ -5,13 +5,11 @@ import React from 'react';
 import Charts from './charts.jsx'
 import Today from './today.jsx'
 
-export default class Body extends React.Component {
-    render() {
-        return (
-            <div>
-                <Today />
-                <Charts />
-            </div>
-        );
-    }
-}
+const Body = () => (
+    <div>
+        <Today />
+        <Charts />
+    </div>
+)
+
+export default Body;

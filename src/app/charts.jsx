@@ -24,41 +24,42 @@ const styles = {
 
 const tilesData = [
     {
+        id: 0,
         name: 'Pushups',
     },
     {
+        id: 1,
         name: 'Situps',
     },
     {
+        id: 2,
         name: 'Minutes reading',
     },
     {
+        id: 3,
         name: 'Books read',
     },
     {
+        id: 4,
         name: 'Flossing',
     },
 ];
 
-/**
- * A simple example of a scrollable `GridList` containing a [Subheader](/#/components/subheader).
- */
-export default class Charts extends React.Component {
-    render () {
-        return (
-            <GridList
-                cellHeight={180}
-                style={styles.gridList}
+const Charts = () => (
+    <GridList
+        cellHeight={180}
+        style={styles.gridList}
+    >
+        {tilesData.map((tile) => (
+            <GridTile
+                title={tile.name}
+                actionIcon={<IconButton><AddCircleIcon /></IconButton>}
+                key={tile.id}
             >
-                {tilesData.map((tile) => (
-                    <GridTile
-                        title={tile.name}
-                        actionIcon={<IconButton><AddCircleIcon /></IconButton>}
-                    >
-                        <Paper style={styles.paper} zDepth={1} />
-                    </GridTile>
-                ))}
-            </GridList>
-        )
-    }
-}
+                <Paper style={styles.paper} zDepth={1} />
+            </GridTile>
+        ))}
+    </GridList>
+)
+
+export default Charts;

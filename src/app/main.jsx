@@ -6,13 +6,11 @@ import React from 'react';
 import Body from './body.jsx';
 import Navigation from './navigation.jsx';
 
-export default class Main extends React.Component {
-    render() {
-        return (
-            <div>
-                <Navigation />
-                <Body />
-            </div>
-        );
-    }
-}
+const Main = () => (
+    <div>
+        <Navigation />
+        <Body />
+    </div>
+)
+
+export default Main;

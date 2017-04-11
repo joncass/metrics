@@ -75,7 +75,10 @@ export default class Today extends React.Component {
                         showExpandableButton={true}
                     />
                     <CardMedia>
+                        {/* wrap in div to prevent "You cannot call prepareStyles()" error */}
+                        <div>
                         <LinearProgress style={{height: 10}} mode="determinate" value={this.state.percentCompleted} />
+                        </div>
                     </CardMedia>
                     <CardText expandable={true} style={this.styles.wrapper}>
                         {this.state.todaysTasks.map(this.renderTask, this)}
