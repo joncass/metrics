@@ -1,34 +1,98 @@
+// Reach library
 import React from 'react';
 
-import AppBar from 'material-ui/AppBar';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+// Material library
+import Divider from 'material-ui/Divider';
+import Drawer from 'material-ui/Drawer';
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton';
+import {List, ListItem} from 'material-ui/List';
+import MenuItem from 'material-ui/MenuItem';
+import Subheader from 'material-ui/Subheader';
+import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
 
-import MetricsDrawer from './metrics_drawer.jsx';
+// Material icons
+import AddCircleIcon from 'material-ui/svg-icons/content/add-circle';
+import CloseIcon from 'material-ui/svg-icons/navigation/close';
+import CodeIcon from 'material-ui/svg-icons/action/code';
+import CopyrightIcon from 'material-ui/svg-icons/action/copyright';
+import EmailIcon from 'material-ui/svg-icons/communication/email';
+import InfoIcon from 'material-ui/svg-icons/action/info';
+import LayersIcon from 'material-ui/svg-icons/maps/layers';
 
-export default class Navigation extends React.Component {
+
+export default class ToolbarExamplesSimple extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            drawerOpen: false,
-        };
+        this.state = {drawerOpen: false};
         this.openDrawer = this.openDrawer.bind(this);
     }
 
     openDrawer() {
-        this.setState({drawerOpen: true});
+        this.setState({drawerOpen: !this.state.drawerOpen});
     }
 
     render() {
         return (
-            <MuiThemeProvider>
-                <div>
-                    <MetricsDrawer open={this.state.drawerOpen} />
-                    <AppBar
-                        title="Metrics"
-                        onLeftIconButtonTouchTap={this.openDrawer}
-                    />
-                </div>
-            </MuiThemeProvider>
-        )
+            <div>
+                <Toolbar>
+                    <ToolbarGroup firstChild={true}>
+                        <IconMenu
+                            iconButtonElement={
+                                <IconButton touch={true}>
+                                    <AddCircleIcon />
+                                </IconButton>
+                            }
+                            >
+                            <MenuItem primaryText="Add entry" />
+                            <MenuItem primaryText="Add metric" />
+                        </IconMenu>
+                    </ToolbarGroup>
+                    <ToolbarGroup>
+                        <ToolbarTitle text="Dashboard" />
+                    </ToolbarGroup>
+                    <ToolbarGroup>
+                        <IconButton touch={true} onTouchTap={this.openDrawer}>
+                            <InfoIcon />
+                        </IconButton>
+                    </ToolbarGroup>
+                </Toolbar>
+                <Drawer openSecondary={true} open={this.state.drawerOpen}>
+                    <Toolbar>
+                        <ToolbarGroup>
+                            <ToolbarTitle text="Site info" />
+                        </ToolbarGroup>
+                        <ToolbarGroup>
+                            <IconButton touch={true} onTouchTap={this.openDrawer}>
+                                <CloseIcon />
+                            </IconButton>
+                        </ToolbarGroup>
+                    </Toolbar>
+                    <List>
+                        <ListItem
+                            primaryText="Source"
+                            leftIcon={<CodeIcon />}
+                        />
+                        <ListItem
+                            primaryText="Contact"
+                            leftIcon={<EmailIcon />}
+                        />
+                        <ListItem
+                            primaryText="2017"
+                            leftIcon={<CopyrightIcon />}
+                            disabled={true}
+                        />
+                    </List>
+                    <Divider />
+                    <List>
+                        <Subheader>Powered by</Subheader>
+                        <ListItem
+                            primaryText="Material UI"
+                            leftIcon={<LayersIcon />}
+                        />
+                    </List>
+                </Drawer>
+            </div>
+        );
     }
-};
+}
