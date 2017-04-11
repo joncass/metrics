@@ -75,7 +75,7 @@ export default class Today extends React.Component {
                         showExpandableButton={true}
                     />
                     <CardMedia>
-                        <LinearProgress mode="determinate" value={this.state.percentCompleted} />
+                        <LinearProgress style={{height: 10}} mode="determinate" value={this.state.percentCompleted} />
                     </CardMedia>
                     <CardText expandable={true} style={this.styles.wrapper}>
                         {this.state.todaysTasks.map(this.renderTask, this)}
