@@ -1,18 +1,15 @@
-// Reach library
+// React library
 import React from 'react';
 
 // Material library
 import Divider from 'material-ui/Divider';
 import Drawer from 'material-ui/Drawer';
-import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import {List, ListItem} from 'material-ui/List';
-import MenuItem from 'material-ui/MenuItem';
 import Subheader from 'material-ui/Subheader';
 import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
 
 // Material icons
-import AddCircleIcon from 'material-ui/svg-icons/content/add-circle';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import CodeIcon from 'material-ui/svg-icons/action/code';
 import CopyrightIcon from 'material-ui/svg-icons/action/copyright';
@@ -20,8 +17,10 @@ import EmailIcon from 'material-ui/svg-icons/communication/email';
 import InfoIcon from 'material-ui/svg-icons/action/info';
 import LayersIcon from 'material-ui/svg-icons/maps/layers';
 
+// My library
+import AddMenu from './add.jsx';
 
-export default class ToolbarExamplesSimple extends React.Component {
+export default class Navigation extends React.Component {
     constructor(props) {
         super(props);
         this.state = {drawerOpen: false};
@@ -37,16 +36,7 @@ export default class ToolbarExamplesSimple extends React.Component {
             <div>
                 <Toolbar>
                     <ToolbarGroup firstChild={true}>
-                        <IconMenu
-                            iconButtonElement={
-                                <IconButton touch={true}>
-                                    <AddCircleIcon />
-                                </IconButton>
-                            }
-                            >
-                            <MenuItem primaryText="Add entry" />
-                            <MenuItem primaryText="Add metric" />
-                        </IconMenu>
+                        <AddMenu />
                     </ToolbarGroup>
                     <ToolbarGroup>
                         <ToolbarTitle text="Dashboard" />
