@@ -5,7 +5,7 @@ const BUILD_PATH = path.resolve(__dirname, 'src/www');
 const NODE_PATH = path.resolve(__dirname, 'node_modules');
 
 const config = {
-    // Entry points to the project
+  // Entry points to the project
   entry: [
     'webpack/hot/dev-server',
     'webpack/hot/only-dev-server',
@@ -36,13 +36,13 @@ const config = {
   module: {
     loaders: [
       {
-                // hot reload and babel parsing for all js(x) files
+        // hot reload and babel parsing for all js(x) files
         test: /\.jsx?$/,
         loaders: ['react-hot', 'babel-loader'],
         exclude: [NODE_PATH],
       },
       {
-                // hot reload and babel parsing for all js(x) files
+        // hot reload and babel parsing for all js(x) files
         test: /\.jsx?$/,
         exclude: [NODE_PATH],
         loaders: ['babel-loader', 'eslint-loader'],
