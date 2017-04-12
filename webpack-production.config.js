@@ -13,6 +13,9 @@ const config = {
     path: BUILD_PATH,
     filename: 'app.js',
   },
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
+  },
   devtool: 'source-map',
   plugins: [
     // Define production build to allow React to strip out unnecessary checks
