@@ -11,29 +11,29 @@ import MenuItem from 'material-ui/MenuItem';
 import AddCircleIcon from 'material-ui/svg-icons/content/add-circle';
 
 export default class AddMenu extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleSelect = this.handleSelect.bind(this);
-    }
+  constructor(props) {
+    super(props);
+    this.handleSelect = this.handleSelect.bind(this);
+  }
 
-    handleSelect() {
-        alert('selected!');
-    }
+  handleSelect() {
+    this.setState({});
+  }
 
-    render() {
-        return (
-            <IconMenu
-                iconButtonElement={
-                    <IconButton touch={true}>
-                        <AddCircleIcon />
-                    </IconButton>
+  render() {
+    return (
+      <IconMenu
+        iconButtonElement={
+          <IconButton touch>
+            <AddCircleIcon />
+          </IconButton>
                 }
-                >
-                <MenuItem primaryText="Add entry" onClick={this.handleSelect} />
-                <MenuItem primaryText="Add habit" onClick={this.handleSelect} />
-                <Divider />
-                <MenuItem primaryText="Add metric" onClick={this.handleSelect} />
-            </IconMenu>
-        );
-    }
+      >
+        <MenuItem primaryText="Add entry" onClick={this.handleSelect} />
+        <MenuItem primaryText="Add habit" onClick={this.handleSelect} />
+        <Divider />
+        <MenuItem primaryText="Add metric" onClick={this.handleSelect} />
+      </IconMenu>
+    );
+  }
 }

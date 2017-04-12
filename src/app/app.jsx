@@ -1,6 +1,6 @@
-// Reach library
+// React library
 import React from 'react';
-import {render} from 'react-dom';
+import { render } from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // Material library
@@ -9,27 +9,28 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 // Material colors
-import {indigo50, indigo700} from 'material-ui/styles/colors';
+import { indigo50, indigo700 } from 'material-ui/styles/colors';
 
 // My library
-import Main from './main.jsx';
+import Main from './main';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
 const myTheme = getMuiTheme(
-    darkBaseTheme, {
+  darkBaseTheme, {
     palette: {
-        primary1Color: indigo50,
-        accent2Color: indigo700,
+      primary1Color: indigo50,
+      accent2Color: indigo700,
     },
-});
+  },
+);
 
 const App = () => (
-    <MuiThemeProvider muiTheme={getMuiTheme(myTheme)}>
-        <Main />
-    </MuiThemeProvider>
+  <MuiThemeProvider muiTheme={getMuiTheme(myTheme)}>
+    <Main />
+  </MuiThemeProvider>
 );
 
 render(<App />, document.getElementById('app'));
