@@ -1,6 +1,8 @@
 // React library
 import React from 'react';
 
+// Material library
+import { blueGrey300 } from 'material-ui/styles/colors';
 
 // My library
 import Charts from './charts';
@@ -15,7 +17,7 @@ const Main = () => (
     <div>
       <Today />
     </div>
-    <div style={{ flex: 1, overflow: 'auto' }}>
+    <div style={{ flex: 1, overflow: 'auto', background: blueGrey300 }}>
       <Charts />
     </div>
   </div>
