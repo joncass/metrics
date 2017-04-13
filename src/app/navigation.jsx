@@ -19,6 +19,7 @@ import LayersIcon from 'material-ui/svg-icons/maps/layers';
 
 // My library
 import AddMenu from './add';
+import Login from './login';
 
 function externalLink(url) {
   return function windowOpen() {
@@ -48,6 +49,7 @@ export default class Navigation extends React.Component {
             <ToolbarTitle text="Dashboard" />
           </ToolbarGroup>
           <ToolbarGroup>
+            <Login />
             <IconButton touch onTouchTap={this.openDrawer}>
               <InfoIcon />
             </IconButton>
