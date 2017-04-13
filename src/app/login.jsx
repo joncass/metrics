@@ -23,7 +23,7 @@ function isUserEqual(googleUser, firebaseUser) {
   return false;
 }
 
-function onSignIn(googleUser) {
+function onLogIn(googleUser) {
   const unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
     unsubscribe();
     if (!isUserEqual(googleUser, firebaseUser)) {
@@ -37,7 +37,7 @@ function onSignIn(googleUser) {
   });
 }
 
-function handleSignOut() {
+function handleLogOut() {
   const googleAuth = gapi.auth2.getAuthInstance();
   googleAuth.signOut().then(() => {
     firebase.auth().signOut();
@@ -48,15 +48,14 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      loggedIn: false,
-    };
+    this.logOut = props.logOut;
+    this.logIn = props.logIn;
   }
 
   componentDidMount() {
-    // hack in the onsuccess handler for the google sign in div
-    gapi.signin2.render('google-sign-in', {
-      onsuccess: onSignIn,
+    // hack in the onsuccess handler for the google log in div
+    gapi.signin2.render('google-log-in', {
+      onsuccess: onLogIn,
     });
 
     this.initApp = this.initApp.bind(this);
@@ -67,9 +66,9 @@ export default class Login extends React.Component {
     const app = this;
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        app.setState({ signedIn: true });
+        app.logIn();
       } else {
-        app.setState({ signedIn: false });
+        app.logOut();
       }
     });
   }
@@ -80,15 +79,15 @@ export default class Login extends React.Component {
         <div>
           <div>
             <div
-              id="google-sign-in"
-              className={this.state.signedIn ? 'display-none' : ''}
+              id="google-log-in"
+              className={this.props.loggedIn ? 'display-none' : ''}
             />
             {
-              this.state.signedIn
+              this.props.loggedIn
               ?
                 <IconButton
                   touch
-                  onTouchTap={handleSignOut}
+                  onTouchTap={handleLogOut}
                 >
                   <ExitIcon />
                 </IconButton>
@@ -100,3 +99,9 @@ export default class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  loggedIn: React.PropTypes.bool.isRequired,
+  logIn: React.PropTypes.func.isRequired,
+  logOut: React.PropTypes.func.isRequired,
+};

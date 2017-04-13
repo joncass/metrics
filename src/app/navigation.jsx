@@ -30,7 +30,13 @@ function externalLink(url) {
 export default class Navigation extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { drawerOpen: false };
+
+    this.state = {
+      drawerOpen: false,
+    };
+
+    this.logOut = props.logOut;
+    this.logIn = props.logIn;
     this.openDrawer = this.openDrawer.bind(this);
   }
 
@@ -43,13 +49,23 @@ export default class Navigation extends React.Component {
       <div>
         <Toolbar>
           <ToolbarGroup firstChild>
-            <AddMenu />
+            {
+              this.props.loggedIn ? <AddMenu /> : null
+            }
           </ToolbarGroup>
           <ToolbarGroup>
-            <ToolbarTitle text="Dashboard" />
+            {
+              this.props.loggedIn
+              ? <ToolbarTitle text="Dashboard" />
+              : <ToolbarTitle text="Welcome" />
+            }
           </ToolbarGroup>
           <ToolbarGroup>
-            <Login />
+            <Login
+              logOut={this.logOut}
+              logIn={this.logIn}
+              loggedIn={this.props.loggedIn}
+            />
             <IconButton touch onTouchTap={this.openDrawer}>
               <InfoIcon />
             </IconButton>
@@ -103,3 +119,9 @@ export default class Navigation extends React.Component {
     );
   }
 }
+
+Navigation.propTypes = {
+  loggedIn: React.PropTypes.bool.isRequired,
+  logIn: React.PropTypes.func.isRequired,
+  logOut: React.PropTypes.func.isRequired,
+};
