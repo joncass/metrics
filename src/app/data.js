@@ -3,9 +3,8 @@ export default {
     return firebase.auth().currentUser.uid;
   },
   read(node, callback) {
-    const userID = this.userID();
     firebase.database()
-      .ref(`${userID}/${node}`)
+      .ref(node)
       .once('value')
       .then((snapshot) => {
         callback(snapshot.val());
@@ -13,7 +12,14 @@ export default {
     );
   },
   write(node, data) {
+    firebase.database().ref(node).set(data);
+  },
+  readUser(node, callback) {
     const userID = this.userID();
-    firebase.database().ref(`${userID}/${node}`).set(data);
+    this.read(`${userID}/${node}`, callback);
+  },
+  writeUser(node, data) {
+    const userID = this.userID();
+    this.write(`${userID}/${node}`, data);
   },
 };

@@ -9,7 +9,7 @@ import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
 
 // My library
-import Firebase from '../firebase';
+import Data from '../data';
 
 export default class AddMetric extends React.Component {
   constructor(props) {
@@ -50,7 +50,7 @@ export default class AddMetric extends React.Component {
   }
 
   saveMetric() {
-    Firebase.write('metric', {
+    Data.writeUser('metric', {
       name: this.state.metricName,
       type: this.state.metricType,
     });
