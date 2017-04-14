@@ -27,7 +27,7 @@ const config = {
     // Minify the bundle
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        // suppresses warnings, usually from module minification
+        // Suppresses warnings, usually from module minification
         warnings: false,
       },
     }),
@@ -37,7 +37,7 @@ const config = {
   module: {
     loaders: [
       {
-        // babel parsing for all js(x) files
+        // Babel parsing for all js(x) files
         test: /\.jsx?$/,
         loaders: ['babel-loader'],
         exclude: [NODE_PATH],

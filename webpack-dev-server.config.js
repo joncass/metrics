@@ -28,21 +28,21 @@ const config = {
   },
   devtool: 'eval',
   plugins: [
-        // Enables Hot Modules Replacement
+    // Enables Hot Modules Replacement
     new webpack.HotModuleReplacementPlugin(),
-        // Allows error warnings but does not stop compiling.
+    // Allows error warnings but does not stop compiling.
     new webpack.NoErrorsPlugin(),
   ],
   module: {
     loaders: [
       {
-        // hot reload and babel parsing for all js(x) files
+        // Hot reload and babel parsing for all js(x) files
         test: /\.jsx?$/,
         loaders: ['react-hot', 'babel-loader'],
         exclude: [NODE_PATH],
       },
       {
-        // hot reload and babel parsing for all js(x) files
+        // Hot reload and babel parsing for all js(x) files
         test: /\.jsx?$/,
         exclude: [NODE_PATH],
         loaders: ['babel-loader', 'eslint-loader'],
