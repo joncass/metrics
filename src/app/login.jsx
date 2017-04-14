@@ -56,6 +56,8 @@ export default class Login extends React.Component {
     // hack in the onsuccess handler for the google log in div
     gapi.signin2.render('google-log-in', {
       onsuccess: onLogIn,
+      width: 36,
+      theme: 'dark',
     });
 
     this.initApp = this.initApp.bind(this);
