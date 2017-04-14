@@ -10,12 +10,15 @@ import Subheader from 'material-ui/Subheader';
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar';
 
 // Material icons
+import BuildIcon from 'material-ui/svg-icons/action/build';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import CodeIcon from 'material-ui/svg-icons/action/code';
 import CopyrightIcon from 'material-ui/svg-icons/action/copyright';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
+import ForwardIcon from 'material-ui/svg-icons/content/forward';
 import InfoIcon from 'material-ui/svg-icons/action/info';
 import LayersIcon from 'material-ui/svg-icons/maps/layers';
+import StorageIcon from 'material-ui/svg-icons/device/storage';
 
 // My library
 import AddMenu from './add';
@@ -115,6 +118,27 @@ export default class Navigation extends React.Component {
               leftIcon={<LayersIcon />}
               onClick={
                 externalLink('http://material-ui.com/')
+              }
+            />
+            <ListItem
+              primaryText="Webpack"
+              leftIcon={<ForwardIcon />}
+              onClick={
+                externalLink('https://webpack.github.io/')
+              }
+            />
+            <ListItem
+              primaryText="Firebase"
+              leftIcon={<StorageIcon />}
+              onClick={
+                externalLink('https://firebase.google.com')
+              }
+            />
+            <ListItem
+              primaryText="Travis CI"
+              leftIcon={<BuildIcon />}
+              onClick={
+                externalLink('https://travis-ci.org')
               }
             />
           </List>
