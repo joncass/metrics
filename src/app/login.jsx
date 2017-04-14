@@ -88,6 +88,7 @@ export default class Login extends React.Component {
                 <IconButton
                   touch
                   onTouchTap={handleLogOut}
+                  tooltip="Log out"
                 >
                   <ExitIcon />
                 </IconButton>

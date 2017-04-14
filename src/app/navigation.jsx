@@ -66,7 +66,11 @@ export default class Navigation extends React.Component {
               logIn={this.logIn}
               loggedIn={this.props.loggedIn}
             />
-            <IconButton touch onTouchTap={this.openDrawer}>
+            <IconButton
+              touch
+              onTouchTap={this.openDrawer}
+              tooltip="Site info"
+            >
               <InfoIcon />
             </IconButton>
           </ToolbarGroup>
