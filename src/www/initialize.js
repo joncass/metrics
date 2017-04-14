@@ -1,3 +1,5 @@
+// Allow no-undef to access firebase and gapi
+// Allow no-unused-vars since apisReady is accessed as a global elsewhere
 /* eslint-disable no-undef, no-unused-vars */
 const apisReady = new Promise((resolve, reject) => {
   window.onload = () => {
