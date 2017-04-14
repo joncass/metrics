@@ -16,25 +16,21 @@ export default class AddMetric extends React.Component {
     super(props);
 
     this.state = {
-      open: false,
       metricName: '',
       metricType: 1,
     };
 
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+    this.resetState = this.resetState.bind(this);
+
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleTypeChange = this.handleTypeChange.bind(this);
 
     this.saveMetric = this.saveMetric.bind(this);
   }
 
-  handleOpen() {
-    this.setState({ open: true });
-  }
-
-  handleClose() {
-    this.setState({ open: false });
+  resetState() {
+    this.setState({ metricName: '' });
+    this.setState({ metricType: 1 });
   }
 
   handleNameChange(event) {
@@ -55,6 +51,7 @@ export default class AddMetric extends React.Component {
       type: this.state.metricType,
     });
     this.props.close();
+    this.resetState();
   }
 
   render() {
