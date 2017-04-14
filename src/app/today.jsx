@@ -75,7 +75,7 @@ export default class Today extends React.Component {
             showExpandableButton
           />
           <CardMedia>
-            {/* wrap in div to prevent "cannot call prepareStyles()" error */}
+            {/* Wrap in div to prevent "cannot call prepareStyles()" error */}
             <div>
               <LinearProgress
                 style={{ height: 10 }}

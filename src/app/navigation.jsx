@@ -24,6 +24,10 @@ import StorageIcon from 'material-ui/svg-icons/device/storage';
 import AddMenu from './add';
 import Login from './login';
 
+/**
+ * @param {string} url The url to open
+ * @returns {void}
+ */
 function externalLink(url) {
   return function windowOpen() {
     window.open(url);

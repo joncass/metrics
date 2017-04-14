@@ -1,8 +1,12 @@
 {
   parser: "babel-eslint",
   "rules": {
-    "max-len": [1, 80, 2],
-    "brace-style": [1, "stroustrup"],
+    "brace-style": [2, "stroustrup"],
+    "capitalized-comments": [2, "always"],
+    "line-comment-position": [2, "above"],
+    "max-len": [2, 80, 2],
+    "require-jsdoc": [2],
+    "valid-jsdoc": [2],
   },
   "extends": ["airbnb"],
   "env": {

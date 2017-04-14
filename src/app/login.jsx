@@ -7,13 +7,22 @@ import IconButton from 'material-ui/IconButton';
 // Material icons
 import ExitIcon from 'material-ui/svg-icons/action/exit-to-app';
 
+/**
+ * @onLogIn - Handles a successful Google login.
+ *
+ * @param {object} googleUser An object containing a google user.
+ * @returns {void}
+ */
 function onLogIn(googleUser) {
   apisReady.then(
     (apis) => {
       const firebase = apis.firebase;
+
+      // Make sure the google auth stays in sync when the firebase auth changes
       const unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
         unsubscribe();
 
+        // Whether or not the firebase and google users are the same
         let isUserEqual = false;
         if (firebaseUser) {
           const providerData = firebaseUser.providerData;
@@ -28,6 +37,7 @@ function onLogIn(googleUser) {
           }
         }
 
+        // If they don't match then synchronize them
         if (!isUserEqual) {
           const credential = firebase.auth.GoogleAuthProvider.credential(
               googleUser.getAuthResponse().id_token,
@@ -45,6 +55,11 @@ function onLogIn(googleUser) {
   );
 }
 
+/**
+ * @onLogIn - Logs out of Google and Firebase.
+ *
+ * @returns {void}
+ */
 function handleLogOut() {
   apisReady.then(
     (apis) => {
@@ -73,7 +88,6 @@ export default class Login extends React.Component {
         apis.google.signin2.render('google-log-in', {
           onsuccess: onLogIn,
           width: 36,
-          theme: 'dark',
         });
 
         this.initApp = this.initApp.bind(this);
