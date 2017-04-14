@@ -11,17 +11,36 @@ export default {
       );
     });
   },
+  firebaseDBRef(node) {
+    return new Promise((resolve, reject) => {
+      apisReady.then(
+        (apis) => {
+          resolve(apis.firebase.database().ref(node));
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+    });
+  },
   read(node, callback) {
-    apisReady.then(
-      (apis) => {
-        apis.firebase.database()
-          .ref(node)
-          .once('value')
-          .then(
-            (snapshot) => {
-              callback(snapshot.val());
-            },
-          );
+    this.firebaseDBRef(node).then(
+      (ref) => {
+        ref.once('value').then((snapshot) => {
+          callback(snapshot.val());
+        });
+      },
+      (error) => {
+        throw error;
+      },
+    );
+  },
+  readAndListen(node, callback) {
+    this.firebaseDBRef(node).then(
+      (ref) => {
+        ref.on('value', (snapshot) => {
+          callback(snapshot.val());
+        });
       },
       (error) => {
         throw error;
@@ -29,9 +48,9 @@ export default {
     );
   },
   write(node, data) {
-    apisReady.then(
-      (apis) => {
-        apis.firebase.database().ref(node).set(data);
+    this.firebaseDBRef(node).then(
+      (ref) => {
+        ref.set(data);
       },
       (error) => {
         throw error;
@@ -48,10 +67,38 @@ export default {
       },
     );
   },
+  readUserAndListen(node, callback) {
+    this.userID().then(
+      (userID) => {
+        this.readAndListen(`${userID}/${node}`, callback);
+      },
+      (error) => {
+        throw error;
+      },
+    );
+  },
   writeUser(node, data) {
     this.userID().then(
       (userID) => {
         this.write(`${userID}/${node}`, data);
+      },
+      (error) => {
+        throw error;
+      },
+    );
+  },
+  addToUserArray(node, data) {
+    this.userID().then(
+      (userID) => {
+        this.firebaseDBRef(`${userID}/${node}`).then(
+          (nodeRef) => {
+            const newChildRef = nodeRef.push();
+            newChildRef.set(data);
+          },
+          (error) => {
+            throw error;
+          },
+        );
       },
       (error) => {
         throw error;

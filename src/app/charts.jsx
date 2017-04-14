@@ -9,55 +9,48 @@ import Paper from 'material-ui/Paper';
 // Material icons
 import AddCircleIcon from 'material-ui/svg-icons/content/add-circle';
 
-const styles = {
-  gridList: {
-    width: '98%',
-    padding: '1%',
-  },
-  paper: {
-    width: '100%',
-    height: '100%',
-  },
-};
+// My library
+import Data from './data';
 
-const tilesData = [
-  {
-    id: 0,
-    name: 'Pushups',
-  },
-  {
-    id: 1,
-    name: 'Situps',
-  },
-  {
-    id: 2,
-    name: 'Minutes reading',
-  },
-  {
-    id: 3,
-    name: 'Books read',
-  },
-  {
-    id: 4,
-    name: 'Flossing',
-  },
-];
+export default class Charts extends React.Component {
+  constructor(props) {
+    super(props);
 
-const Charts = () => (
-  <GridList
-    cellHeight={180}
-    style={styles.gridList}
-  >
-    {tilesData.map(tile => (
-      <GridTile
-        title={tile.name}
-        actionIcon={<IconButton><AddCircleIcon /></IconButton>}
-        key={tile.id}
+    this.state = {
+      metrics: [],
+    };
+
+    this.setMetrics = this.setMetrics.bind(this);
+    Data.readUserAndListen('metric', this.setMetrics);
+  }
+
+  setMetrics(metrics) {
+    const metricsArray = Object.keys(metrics || {}).map((key) => {
+      const val = metrics[key];
+      val.key = key;
+      return val;
+    });
+    this.setState({ metrics: metricsArray });
+  }
+
+  render() {
+    return (
+      <GridList
+        cellHeight={180}
+        style={{ width: '98%', padding: '1%' }}
       >
-        <Paper style={styles.paper} zDepth={1} />
-      </GridTile>
-        ))}
-  </GridList>
-);
-
-export default Charts;
+        {
+          this.state.metrics.map(metric => (
+            <GridTile
+              title={metric.name}
+              actionIcon={<IconButton><AddCircleIcon /></IconButton>}
+              key={metric.key}
+            >
+              <Paper style={{ width: '100%', height: '100%' }} zDepth={1} />
+            </GridTile>
+          ))
+        }
+      </GridList>
+    );
+  }
+}

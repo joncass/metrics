@@ -50,7 +50,7 @@ export default class AddMetric extends React.Component {
   }
 
   saveMetric() {
-    Data.writeUser('metric', {
+    Data.addToUserArray('metric', {
       name: this.state.metricName,
       type: this.state.metricType,
     });
