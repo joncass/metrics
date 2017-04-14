@@ -6,6 +6,7 @@ import { blueGrey300 } from 'material-ui/styles/colors';
 
 // My library
 import Charts from './charts';
+import Firebase from './firebase';
 import Navigation from './navigation';
 import Today from './today';
 
@@ -26,6 +27,9 @@ export default class Main extends React.Component {
 
   logIn() {
     this.setState({ loggedIn: true });
+
+    // eslint-disable-next-line
+    Firebase.read('metric', (value) => { console.log(value) });
   }
 
   render() {

@@ -8,6 +8,9 @@ import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
 
+// My library
+import Firebase from '../firebase';
+
 export default class AddMetric extends React.Component {
   constructor(props) {
     super(props);
@@ -22,6 +25,8 @@ export default class AddMetric extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleTypeChange = this.handleTypeChange.bind(this);
+
+    this.saveMetric = this.saveMetric.bind(this);
   }
 
   handleOpen() {
@@ -44,6 +49,14 @@ export default class AddMetric extends React.Component {
     });
   }
 
+  saveMetric() {
+    Firebase.write('metric', {
+      name: this.state.metricName,
+      type: this.state.metricType,
+    });
+    this.props.close();
+  }
+
   render() {
     const actions = [
       <FlatButton
@@ -58,7 +71,7 @@ export default class AddMetric extends React.Component {
           !this.state.metricName
           || !this.state.metricType
         }
-        onTouchTap={this.props.close}
+        onTouchTap={this.saveMetric}
       />,
     ];
 
