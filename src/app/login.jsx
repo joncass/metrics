@@ -7,41 +7,56 @@ import IconButton from 'material-ui/IconButton';
 // Material icons
 import ExitIcon from 'material-ui/svg-icons/action/exit-to-app';
 
-function isUserEqual(googleUser, firebaseUser) {
-  if (firebaseUser) {
-    const providerData = firebaseUser.providerData;
-    const fbGoogleAuthProvider = firebase.auth.GoogleAuthProvider;
-    for (let i = 0; i < providerData.length; i += 1) {
-      if (
-        providerData[i].providerId === fbGoogleAuthProvider.PROVIDER_ID
-        && providerData[i].uid === googleUser.getBasicProfile().getId()
-      ) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
 function onLogIn(googleUser) {
-  const unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
-    unsubscribe();
-    if (!isUserEqual(googleUser, firebaseUser)) {
-      const credential = firebase.auth.GoogleAuthProvider.credential(
-          googleUser.getAuthResponse().id_token,
-      );
+  apisReady.then(
+    (apis) => {
+      const firebase = apis.firebase;
+      const unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
+        unsubscribe();
 
-      // eslint-disable-next-line no-console
-      firebase.auth().signInWithCredential(credential).catch(console.error);
-    }
-  });
+        let isUserEqual = false;
+        if (firebaseUser) {
+          const providerData = firebaseUser.providerData;
+          const fbGoogleAuthProvider = firebase.auth.GoogleAuthProvider;
+          for (let i = 0; i < providerData.length; i += 1) {
+            if (
+              providerData[i].providerId === fbGoogleAuthProvider.PROVIDER_ID
+              && providerData[i].uid === googleUser.getBasicProfile().getId()
+            ) {
+              isUserEqual = true;
+            }
+          }
+        }
+
+        if (!isUserEqual) {
+          const credential = firebase.auth.GoogleAuthProvider.credential(
+              googleUser.getAuthResponse().id_token,
+          );
+
+          firebase.auth().signInWithCredential(credential).catch((error) => {
+            throw error;
+          });
+        }
+      });
+    },
+    (error) => {
+      throw error;
+    },
+  );
 }
 
 function handleLogOut() {
-  const googleAuth = gapi.auth2.getAuthInstance();
-  googleAuth.signOut().then(() => {
-    firebase.auth().signOut();
-  });
+  apisReady.then(
+    (apis) => {
+      const googleAuth = apis.google.auth2.getAuthInstance();
+      googleAuth.signOut().then(() => {
+        apis.firebase.auth().signOut();
+      });
+    },
+    (error) => {
+      throw error;
+    },
+  );
 }
 
 export default class Login extends React.Component {
@@ -53,25 +68,40 @@ export default class Login extends React.Component {
   }
 
   componentDidMount() {
-    gapi.signin2.render('google-log-in', {
-      onsuccess: onLogIn,
-      width: 36,
-      theme: 'dark',
-    });
+    apisReady.then(
+      (apis) => {
+        apis.google.signin2.render('google-log-in', {
+          onsuccess: onLogIn,
+          width: 36,
+          theme: 'dark',
+        });
 
-    this.initApp = this.initApp.bind(this);
-    this.initApp();
+        this.initApp = this.initApp.bind(this);
+        this.initApp();
+      },
+      (error) => {
+        throw error;
+      },
+    );
   }
 
   initApp() {
-    const app = this;
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        app.logIn();
-      } else {
-        app.logOut();
-      }
-    });
+    apisReady.then(
+      (apis) => {
+        const app = this;
+        apis.firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            app.logIn();
+          }
+          else {
+            app.logOut();
+          }
+        });
+      },
+      (error) => {
+        throw error;
+      },
+    );
   }
 
   render() {

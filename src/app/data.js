@@ -1,25 +1,61 @@
 export default {
   userID() {
-    return firebase.auth().currentUser.uid;
+    return new Promise((resolve, reject) => {
+      apisReady.then(
+        (apis) => {
+          resolve(apis.firebase.auth().currentUser.uid);
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+    });
   },
   read(node, callback) {
-    firebase.database()
-      .ref(node)
-      .once('value')
-      .then((snapshot) => {
-        callback(snapshot.val());
+    apisReady.then(
+      (apis) => {
+        apis.firebase.database()
+          .ref(node)
+          .once('value')
+          .then(
+            (snapshot) => {
+              callback(snapshot.val());
+            },
+          );
+      },
+      (error) => {
+        throw error;
       },
     );
   },
   write(node, data) {
-    firebase.database().ref(node).set(data);
+    apisReady.then(
+      (apis) => {
+        apis.firebase.database().ref(node).set(data);
+      },
+      (error) => {
+        throw error;
+      },
+    );
   },
   readUser(node, callback) {
-    const userID = this.userID();
-    this.read(`${userID}/${node}`, callback);
+    this.userID().then(
+      (userID) => {
+        this.read(`${userID}/${node}`, callback);
+      },
+      (error) => {
+        throw error;
+      },
+    );
   },
   writeUser(node, data) {
-    const userID = this.userID();
-    this.write(`${userID}/${node}`, data);
+    this.userID().then(
+      (userID) => {
+        this.write(`${userID}/${node}`, data);
+      },
+      (error) => {
+        throw error;
+      },
+    );
   },
 };
