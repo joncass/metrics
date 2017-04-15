@@ -2,15 +2,11 @@
 import React from 'react';
 
 // Material library
-import { GridList, GridTile } from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
-import Paper from 'material-ui/Paper';
-
-// Material icons
-import AddCircleIcon from 'material-ui/svg-icons/content/add-circle';
+import { GridList } from 'material-ui/GridList';
 
 // My library
-import Data from './data';
+import ChartItem from './item';
+import Data from '../data';
 
 export default class Charts extends React.Component {
   constructor(props) {
@@ -30,6 +26,7 @@ export default class Charts extends React.Component {
       val.key = key;
       return val;
     });
+
     this.setState({ metrics: metricsArray });
   }
 
@@ -40,15 +37,16 @@ export default class Charts extends React.Component {
         style={{ width: '98%', padding: '1%' }}
       >
         {
-          this.state.metrics.map(metric => (
-            <GridTile
-              title={metric.name}
-              actionIcon={<IconButton><AddCircleIcon /></IconButton>}
-              key={metric.key}
-            >
-              <Paper style={{ width: '100%', height: '100%' }} zDepth={1} />
-            </GridTile>
-          ))
+          this.state.metrics.length
+          ?
+            this.state.metrics.map(metric => (
+              <ChartItem
+                key={metric.key}
+                metricID={metric.key}
+              />
+            ))
+          :
+            null
         }
       </GridList>
     );

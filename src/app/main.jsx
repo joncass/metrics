@@ -5,7 +5,7 @@ import React from 'react';
 import { blueGrey300 } from 'material-ui/styles/colors';
 
 // My library
-import Charts from './charts';
+import ChartList from './chart/list';
 import Navigation from './navigation';
 import Today from './today';
 
@@ -48,7 +48,7 @@ export default class Main extends React.Component {
           }
         </div>
         <div style={{ flex: 1, overflow: 'auto', background: blueGrey300 }}>
-          { this.state.loggedIn ? <Charts /> : null }
+          { this.state.loggedIn ? <ChartList /> : null }
         </div>
       </div>
     );
