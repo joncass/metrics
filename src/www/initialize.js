@@ -3,7 +3,7 @@
 /* eslint-disable no-undef, no-unused-vars */
 const apisReady = new Promise((resolve, reject) => {
   window.onload = () => {
-    if (firebase && gapi) {
+    if (typeof firebase !== 'undefined' && typeof gapi !== 'undefined') {
       const config = {
         apiKey: 'AIzaSyDVUPVPKc3n8Tg5lSsQk0JRrTOcYsuVfu0',
         authDomain: 'metrics-164419.firebaseapp.com',
