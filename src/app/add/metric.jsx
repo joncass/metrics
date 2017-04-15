@@ -10,6 +10,7 @@ import TextField from 'material-ui/TextField';
 
 // My library
 import Data from '../data';
+import Util from '../util/metric/type';
 
 export default class AddMetric extends React.Component {
   constructor(props) {
@@ -62,7 +63,7 @@ export default class AddMetric extends React.Component {
         onTouchTap={this.props.close}
       />,
       <FlatButton
-        label="Submit"
+        label="Add"
         primary
         disabled={
           !this.state.metricName
@@ -98,8 +99,15 @@ export default class AddMetric extends React.Component {
           value={this.state.metricType}
           onChange={this.handleTypeChange}
         >
-          <MenuItem value={1} primaryText="Number" />
-          <MenuItem value={2} primaryText="Yes/No" />
+          {
+            Util.metricTypes().map(type => (
+              <MenuItem
+                key={type.id}
+                value={type.id}
+                primaryText={type.description}
+              />
+            ))
+          }
         </SelectField>
       </Dialog>
     );

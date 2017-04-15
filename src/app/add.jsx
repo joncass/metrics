@@ -11,6 +11,7 @@ import MenuItem from 'material-ui/MenuItem';
 import AddCircleIcon from 'material-ui/svg-icons/content/add-circle';
 
 // My library
+import AddEntry from './add/entry';
 import AddMetric from './add/metric';
 
 export default class AddMenu extends React.Component {
@@ -18,6 +19,7 @@ export default class AddMenu extends React.Component {
     super(props);
 
     this.state = {
+      addingEntry: false,
       addingMetric: false,
     };
 
@@ -36,9 +38,12 @@ export default class AddMenu extends React.Component {
             <IconButton touch>
               <AddCircleIcon />
             </IconButton>
-                  }
+          }
         >
-          <MenuItem primaryText="Add entry" onClick={this.handleSelect} />
+          <MenuItem
+            primaryText="Add entry"
+            onClick={() => this.setState({ addingEntry: true })}
+          />
           <MenuItem primaryText="Add habit" onClick={this.handleSelect} />
           <Divider />
           <MenuItem
@@ -46,6 +51,10 @@ export default class AddMenu extends React.Component {
             onClick={() => this.setState({ addingMetric: true })}
           />
         </IconMenu>
+        <AddEntry
+          open={this.state.addingEntry}
+          close={() => this.setState({ addingEntry: false })}
+        />
         <AddMetric
           open={this.state.addingMetric}
           close={() => this.setState({ addingMetric: false })}
