@@ -39,6 +39,8 @@ export default class Charts extends React.Component {
         {
           this.state.metrics.length
           ?
+            /* Note: have to pass key to make material UI happy, but have to
+              pass metricID since key is reserved by React. */
             this.state.metrics.map(metric => (
               <ChartItem
                 key={metric.key}
