@@ -15,42 +15,37 @@ export default class Main extends React.Component {
     this.state = {
       loggedIn: false,
     };
-
-    this.logOut = this.logOut.bind(this);
-    this.logIn = this.logIn.bind(this);
   }
 
-  logOut() {
+  logOut = () => {
     this.setState({ loggedIn: false });
   }
 
-  logIn() {
+  logIn = () => {
     this.setState({ loggedIn: true });
   }
 
-  render() {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <div>
-          <Navigation
-            logOut={this.logOut}
-            logIn={this.logIn}
-            loggedIn={this.state.loggedIn}
-          />
-        </div>
-        <div>
-          {
-            this.state.loggedIn
-            ?
-              <Today />
-            :
-              null
-          }
-        </div>
-        <div style={{ flex: 1, overflow: 'auto', background: blueGrey300 }}>
-          { this.state.loggedIn ? <ChartList /> : null }
-        </div>
+  render = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <div>
+        <Navigation
+          logOut={this.logOut}
+          logIn={this.logIn}
+          loggedIn={this.state.loggedIn}
+        />
       </div>
-    );
-  }
+      <div>
+        {
+          this.state.loggedIn
+          ?
+            <Today />
+          :
+            null
+        }
+      </div>
+      <div style={{ flex: 1, overflow: 'auto', background: blueGrey300 }}>
+        { this.state.loggedIn ? <ChartList /> : null }
+      </div>
+    </div>
+  );
 }

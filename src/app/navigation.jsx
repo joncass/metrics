@@ -44,112 +44,109 @@ export default class Navigation extends React.Component {
 
     this.logOut = props.logOut;
     this.logIn = props.logIn;
-    this.openDrawer = this.openDrawer.bind(this);
   }
 
-  openDrawer() {
+  openDrawer = () => {
     this.setState({ drawerOpen: !this.state.drawerOpen });
   }
 
-  render() {
-    return (
-      <div>
+  render = () => (
+    <div>
+      <Toolbar>
+        <ToolbarGroup firstChild>
+          {
+            this.props.loggedIn ? <AddMenu /> : null
+          }
+        </ToolbarGroup>
+        <ToolbarGroup>
+          {
+            this.props.loggedIn
+            ? <ToolbarTitle text="Dashboard" />
+            : <ToolbarTitle text="Welcome" />
+          }
+        </ToolbarGroup>
+        <ToolbarGroup>
+          <Login
+            logOut={this.logOut}
+            logIn={this.logIn}
+            loggedIn={this.props.loggedIn}
+          />
+          <IconButton
+            touch
+            onTouchTap={this.openDrawer}
+            tooltip="Site info"
+          >
+            <InfoIcon />
+          </IconButton>
+        </ToolbarGroup>
+      </Toolbar>
+      <Drawer openSecondary open={this.state.drawerOpen}>
         <Toolbar>
-          <ToolbarGroup firstChild>
-            {
-              this.props.loggedIn ? <AddMenu /> : null
-            }
+          <ToolbarGroup>
+            <ToolbarTitle text="Site info" />
           </ToolbarGroup>
           <ToolbarGroup>
-            {
-              this.props.loggedIn
-              ? <ToolbarTitle text="Dashboard" />
-              : <ToolbarTitle text="Welcome" />
-            }
-          </ToolbarGroup>
-          <ToolbarGroup>
-            <Login
-              logOut={this.logOut}
-              logIn={this.logIn}
-              loggedIn={this.props.loggedIn}
-            />
-            <IconButton
-              touch
-              onTouchTap={this.openDrawer}
-              tooltip="Site info"
-            >
-              <InfoIcon />
+            <IconButton touch onTouchTap={this.openDrawer}>
+              <CloseIcon />
             </IconButton>
           </ToolbarGroup>
         </Toolbar>
-        <Drawer openSecondary open={this.state.drawerOpen}>
-          <Toolbar>
-            <ToolbarGroup>
-              <ToolbarTitle text="Site info" />
-            </ToolbarGroup>
-            <ToolbarGroup>
-              <IconButton touch onTouchTap={this.openDrawer}>
-                <CloseIcon />
-              </IconButton>
-            </ToolbarGroup>
-          </Toolbar>
-          <List>
-            <ListItem
-              primaryText="Source"
-              leftIcon={<CodeIcon />}
-              onClick={
-                externalLink('https://github.com/joncass/metrics')
-              }
-            />
-            <ListItem
-              primaryText="Contact"
-              leftIcon={<EmailIcon />}
-              onClick={
-                externalLink('mailto:joncass@gmail.com')
-              }
-            />
-            <ListItem
-              primaryText="2017"
-              leftIcon={<CopyrightIcon />}
-              disabled
-            />
-          </List>
-          <Divider />
-          <List>
-            <Subheader>Powered by</Subheader>
-            <ListItem
-              primaryText="Material UI"
-              leftIcon={<LayersIcon />}
-              onClick={
-                externalLink('http://material-ui.com/')
-              }
-            />
-            <ListItem
-              primaryText="Webpack"
-              leftIcon={<ForwardIcon />}
-              onClick={
-                externalLink('https://webpack.github.io/')
-              }
-            />
-            <ListItem
-              primaryText="Firebase"
-              leftIcon={<StorageIcon />}
-              onClick={
-                externalLink('https://firebase.google.com')
-              }
-            />
-            <ListItem
-              primaryText="Travis CI"
-              leftIcon={<BuildIcon />}
-              onClick={
-                externalLink('https://travis-ci.org')
-              }
-            />
-          </List>
-        </Drawer>
-      </div>
-    );
-  }
+        <List>
+          <ListItem
+            primaryText="Source"
+            leftIcon={<CodeIcon />}
+            onClick={
+              externalLink('https://github.com/joncass/metrics')
+            }
+          />
+          <ListItem
+            primaryText="Contact"
+            leftIcon={<EmailIcon />}
+            onClick={
+              externalLink('mailto:joncass@gmail.com')
+            }
+          />
+          <ListItem
+            primaryText="2017"
+            leftIcon={<CopyrightIcon />}
+            disabled
+          />
+        </List>
+        <Divider />
+        <List>
+          <Subheader>Powered by</Subheader>
+          <ListItem
+            primaryText="Material UI"
+            leftIcon={<LayersIcon />}
+            onClick={
+              externalLink('http://material-ui.com/')
+            }
+          />
+          <ListItem
+            primaryText="Webpack"
+            leftIcon={<ForwardIcon />}
+            onClick={
+              externalLink('https://webpack.github.io/')
+            }
+          />
+          <ListItem
+            primaryText="Firebase"
+            leftIcon={<StorageIcon />}
+            onClick={
+              externalLink('https://firebase.google.com')
+            }
+          />
+          <ListItem
+            primaryText="Travis CI"
+            leftIcon={<BuildIcon />}
+            onClick={
+              externalLink('https://travis-ci.org')
+            }
+          />
+        </List>
+      </Drawer>
+    </div>
+  );
 }
 
 Navigation.propTypes = {

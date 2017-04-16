@@ -82,15 +82,13 @@ export default class Login extends React.Component {
     this.logIn = props.logIn;
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     apisReady.then(
       (apis) => {
         apis.google.signin2.render('google-log-in', {
           onsuccess: onLogIn,
           width: 36,
         });
-
-        this.initApp = this.initApp.bind(this);
         this.initApp();
       },
       (error) => {
@@ -99,7 +97,7 @@ export default class Login extends React.Component {
     );
   }
 
-  initApp() {
+  initApp = () => {
     apisReady.then(
       (apis) => {
         const app = this;
@@ -118,32 +116,30 @@ export default class Login extends React.Component {
     );
   }
 
-  render() {
-    return (
+  render = () => (
+    <div>
       <div>
         <div>
-          <div>
-            <div
-              id="google-log-in"
-              className={this.props.loggedIn ? 'display-none' : ''}
-            />
-            {
-              this.props.loggedIn
-              ?
-                <IconButton
-                  touch
-                  onTouchTap={handleLogOut}
-                  tooltip="Log out"
-                >
-                  <ExitIcon />
-                </IconButton>
-              : null
-            }
-          </div>
+          <div
+            id="google-log-in"
+            className={this.props.loggedIn ? 'display-none' : ''}
+          />
+          {
+            this.props.loggedIn
+            ?
+              <IconButton
+                touch
+                onTouchTap={handleLogOut}
+                tooltip="Log out"
+              >
+                <ExitIcon />
+              </IconButton>
+            : null
+          }
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 Login.propTypes = {

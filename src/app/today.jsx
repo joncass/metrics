@@ -36,7 +36,7 @@ export default class Today extends React.Component {
     };
   }
 
-  completeTask(id) {
+  completeTask = (id) => {
     const todaysTasks = this.state.todaysTasks.filter(task => task.id !== id);
     this.setState({ todaysTasks });
 
@@ -53,47 +53,43 @@ export default class Today extends React.Component {
     }
   }
 
-  renderTask(taskData) {
-    return (
-      <Chip
-        key={taskData.id}
-        onRequestDelete={() => this.completeTask(taskData.id)}
-        style={this.styles.chip}
-      >
-        {taskData.name}
-      </Chip>
-    );
-  }
+  renderTask = taskData => (
+    <Chip
+      key={taskData.id}
+      onRequestDelete={() => this.completeTask(taskData.id)}
+      style={this.styles.chip}
+    >
+      {taskData.name}
+    </Chip>
+  );
 
-  render() {
-    return (
-      <div>
-        <Card>
-          <CardHeader
-            title="Today"
-            actAsExpander
-            showExpandableButton
-          />
-          <CardMedia>
-            {/* Wrap in div to prevent "cannot call prepareStyles()" error */}
-            <div>
-              <LinearProgress
-                style={{ height: 10 }}
-                mode="determinate"
-                value={this.state.percentCompleted}
-              />
-            </div>
-          </CardMedia>
-          <CardText expandable style={this.styles.wrapper}>
-            {this.state.todaysTasks.map(this.renderTask, this)}
-          </CardText>
-        </Card>
-        <Snackbar
-          open={this.state.snackbarOpen}
-          message="Nice! You finished all your tasks for today!"
-          autoHideDuration={3000}
+  render = () => (
+    <div>
+      <Card>
+        <CardHeader
+          title="Today"
+          actAsExpander
+          showExpandableButton
         />
-      </div>
-    );
-  }
+        <CardMedia>
+          {/* Wrap in div to prevent "cannot call prepareStyles()" error */}
+          <div>
+            <LinearProgress
+              style={{ height: 10 }}
+              mode="determinate"
+              value={this.state.percentCompleted}
+            />
+          </div>
+        </CardMedia>
+        <CardText expandable style={this.styles.wrapper}>
+          {this.state.todaysTasks.map(this.renderTask, this)}
+        </CardText>
+      </Card>
+      <Snackbar
+        open={this.state.snackbarOpen}
+        message="Nice! You finished all your tasks for today!"
+        autoHideDuration={3000}
+      />
+    </div>
+  );
 }

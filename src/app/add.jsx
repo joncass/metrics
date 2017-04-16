@@ -22,44 +22,40 @@ export default class AddMenu extends React.Component {
       addingEntry: false,
       addingMetric: false,
     };
-
-    this.handleSelect = this.handleSelect.bind(this);
   }
 
-  handleSelect() {
+  handleSelect = () => {
     this.setState({});
   }
 
-  render() {
-    return (
-      <div>
-        <IconMenu
-          iconButtonElement={
-            <IconButton touch>
-              <AddCircleIcon />
-            </IconButton>
-          }
-        >
-          <MenuItem
-            primaryText="Add entry"
-            onClick={() => this.setState({ addingEntry: true })}
-          />
-          <MenuItem primaryText="Add habit" onClick={this.handleSelect} />
-          <Divider />
-          <MenuItem
-            primaryText="Add metric"
-            onClick={() => this.setState({ addingMetric: true })}
-          />
-        </IconMenu>
-        <AddEntry
-          open={this.state.addingEntry}
-          close={() => this.setState({ addingEntry: false })}
+  render = () => (
+    <div>
+      <IconMenu
+        iconButtonElement={
+          <IconButton touch>
+            <AddCircleIcon />
+          </IconButton>
+        }
+      >
+        <MenuItem
+          primaryText="Add entry"
+          onClick={() => this.setState({ addingEntry: true })}
         />
-        <AddMetric
-          open={this.state.addingMetric}
-          close={() => this.setState({ addingMetric: false })}
+        <MenuItem primaryText="Add habit" onClick={this.handleSelect} />
+        <Divider />
+        <MenuItem
+          primaryText="Add metric"
+          onClick={() => this.setState({ addingMetric: true })}
         />
-      </div>
-    );
-  }
+      </IconMenu>
+      <AddEntry
+        open={this.state.addingEntry}
+        close={() => this.setState({ addingEntry: false })}
+      />
+      <AddMetric
+        open={this.state.addingMetric}
+        close={() => this.setState({ addingMetric: false })}
+      />
+    </div>
+  );
 }

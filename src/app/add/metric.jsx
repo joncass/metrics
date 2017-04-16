@@ -20,33 +20,26 @@ export default class AddMetric extends React.Component {
       metricName: '',
       metricType: 1,
     };
-
-    this.resetState = this.resetState.bind(this);
-
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleTypeChange = this.handleTypeChange.bind(this);
-
-    this.saveMetric = this.saveMetric.bind(this);
   }
 
-  resetState() {
+  resetState = () => {
     this.setState({ metricName: '' });
     this.setState({ metricType: 1 });
   }
 
-  handleNameChange(event) {
+  handleNameChange = (event) => {
     this.setState({
       metricName: event.target.value,
     });
   }
 
-  handleTypeChange(event, index, value) {
+  handleTypeChange = (event, index, value) => {
     this.setState({
       metricType: value,
     });
   }
 
-  saveMetric() {
+  saveMetric = () => {
     Data.addToUserArray('metric', {
       name: this.state.metricName,
       type: this.state.metricType,
@@ -55,7 +48,7 @@ export default class AddMetric extends React.Component {
     this.resetState();
   }
 
-  render() {
+  render = () => {
     const actions = [
       <FlatButton
         label="Cancel"

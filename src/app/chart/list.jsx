@@ -16,11 +16,10 @@ export default class Charts extends React.Component {
       metrics: [],
     };
 
-    this.setMetrics = this.setMetrics.bind(this);
     Data.readUserAndListen('metric', this.setMetrics);
   }
 
-  setMetrics(metrics) {
+  setMetrics = (metrics) => {
     const metricsArray = Object.keys(metrics || {}).map((key) => {
       const val = metrics[key];
       val.key = key;
@@ -30,27 +29,25 @@ export default class Charts extends React.Component {
     this.setState({ metrics: metricsArray });
   }
 
-  render() {
-    return (
-      <GridList
-        cellHeight={180}
-        style={{ width: '98%', padding: '1%' }}
-      >
-        {
-          this.state.metrics.length
-          ?
-            /* Note: have to pass key to make material UI happy, but have to
-              pass metricID since key is reserved by React. */
-            this.state.metrics.map(metric => (
-              <ChartItem
-                key={metric.key}
-                metricID={metric.key}
-              />
-            ))
-          :
-            null
-        }
-      </GridList>
-    );
-  }
+  render = () => (
+    <GridList
+      cellHeight={180}
+      style={{ width: '98%', padding: '1%' }}
+    >
+      {
+        this.state.metrics.length
+        ?
+          /* Note: have to pass key to make material UI happy, but have to
+            pass metricID since key is reserved by React. */
+          this.state.metrics.map(metric => (
+            <ChartItem
+              key={metric.key}
+              metricID={metric.key}
+            />
+          ))
+        :
+          null
+      }
+    </GridList>
+  );
 }
