@@ -25,17 +25,10 @@ export default class AddMetric extends React.Component {
       entryNumber: null,
     };
 
-    this.handleDateChange = this.handleDateChange.bind(this);
-    this.handleMetricChange = this.handleMetricChange.bind(this);
-    this.handleNumberChange = this.handleNumberChange.bind(this);
-    this.resetState = this.resetState.bind(this);
-    this.saveEntry = this.saveEntry.bind(this);
-    this.setMetrics = this.setMetrics.bind(this);
-
     Data.readUserAndListen('metric', this.setMetrics);
   }
 
-  setMetrics(metrics) {
+  setMetrics = (metrics) => {
     const metricsArray = Object.keys(metrics || {}).map((key) => {
       const val = metrics[key];
       val.key = key;
@@ -45,13 +38,13 @@ export default class AddMetric extends React.Component {
     this.setState({ metrics: metricsArray });
   }
 
-  resetState() {
+  resetState = () => {
     this.setState({ selectedMetric: null });
     this.setState({ entryDate: null });
     this.setState({ entryNumber: null });
   }
 
-  saveEntry() {
+  saveEntry = () => {
     Data.addToUserArray(`entry/${this.state.selectedMetric}`, {
       date: DateUtil.toString(this.state.entryDate),
       number: this.state.entryNumber,
@@ -60,7 +53,7 @@ export default class AddMetric extends React.Component {
     this.resetState();
   }
 
-  handleMetricChange(event, index, value) {
+  handleMetricChange = (event, index, value) => {
     const selectedMetric = this.state.metrics.find(metric => (
       metric.key === value
     ));
@@ -74,19 +67,19 @@ export default class AddMetric extends React.Component {
     });
   }
 
-  handleDateChange(event, date) {
+  handleDateChange = (event, date) => {
     this.setState({
       entryDate: date,
     });
   }
 
-  handleNumberChange(event) {
+  handleNumberChange = (event) => {
     this.setState({
       entryNumber: event.target.value,
     });
   }
 
-  render() {
+  render = () => {
     const actions = [
       <FlatButton
         label="Cancel"
