@@ -18,6 +18,7 @@ import EmailIcon from 'material-ui/svg-icons/communication/email';
 import ForwardIcon from 'material-ui/svg-icons/content/forward';
 import InfoIcon from 'material-ui/svg-icons/action/info';
 import LayersIcon from 'material-ui/svg-icons/maps/layers';
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import StorageIcon from 'material-ui/svg-icons/device/storage';
 
 // My library
@@ -120,6 +121,13 @@ export default class Navigation extends React.Component {
             leftIcon={<LayersIcon />}
             onClick={
               externalLink('http://material-ui.com/')
+            }
+          />
+          <ListItem
+            primaryText="React"
+            leftIcon={<RefreshIcon />}
+            onClick={
+              externalLink('https://facebook.github.io/react/')
             }
           />
           <ListItem
