@@ -105,4 +105,24 @@ export default {
       },
     );
   },
+  addMultipleToUserArray(node, dataArray) {
+    this.userID().then(
+      (userID) => {
+        this.firebaseDBRef(`${userID}/${node}`).then(
+          (nodeRef) => {
+            dataArray.forEach((data) => {
+              const newChildRef = nodeRef.push();
+              newChildRef.set(data);
+            });
+          },
+          (error) => {
+            throw error;
+          },
+        );
+      },
+      (error) => {
+        throw error;
+      },
+    );
+  },
 };

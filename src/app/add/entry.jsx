@@ -8,6 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
+import Toggle from 'material-ui/Toggle';
 
 // My library
 import Data from '../data';
@@ -20,9 +21,6 @@ export default class AddMetric extends React.Component {
 
     this.state = {
       metrics: [],
-      selectedMetric: null,
-      entryDate: null,
-      entryNumber: null,
     };
 
     Data.readUserAndListen('metric', this.setMetrics);
@@ -39,9 +37,13 @@ export default class AddMetric extends React.Component {
   }
 
   resetState = () => {
+    this.props.close();
     this.setState({ selectedMetric: null });
     this.setState({ entryDate: null });
+    this.setState({ startDate: null });
+    this.setState({ endDate: null });
     this.setState({ entryNumber: null });
+    this.setState({ dateRange: false });
   }
 
   saveEntry = () => {
@@ -54,7 +56,25 @@ export default class AddMetric extends React.Component {
     }
 
     Data.addToUserArray(`entry/${this.state.selectedMetric}`, entryToSave);
-    this.props.close();
+    this.resetState();
+  }
+
+  saveEntries = () => {
+    const entries = [];
+    const start = this.state.startDate;
+    const end = this.state.endDate;
+    while (start.getTime() <= end.getTime()) {
+      const entry = {
+        date: DateUtil.toString(start),
+      };
+      if (this.state.entryNumber) {
+        entry.number = Number(this.state.entryNumber);
+      }
+      entries.push(entry);
+      start.setDate(start.getDate() + 1);
+    }
+
+    Data.addMultipleToUserArray(`entry/${this.state.selectedMetric}`, entries);
     this.resetState();
   }
 
@@ -86,9 +106,28 @@ export default class AddMetric extends React.Component {
     });
   }
 
+  handleStartDateChange = (event, date) => {
+    this.setState({
+      startDate: date,
+    });
+  }
+
+  handleEndDateChange = (event, date) => {
+    this.setState({
+      endDate: date,
+    });
+  }
+
   handleNumberChange = (event) => {
     this.setState({
       entryNumber: event.target.value,
+    });
+  }
+
+  handleDateRangeToggle = () => {
+    const currentState = this.state.dateRange;
+    this.setState({
+      dateRange: !currentState,
     });
   }
 
@@ -104,9 +143,24 @@ export default class AddMetric extends React.Component {
         primary
         disabled={
           !this.state.selectedMetric
-          || !this.state.entryDate
+          ||
+            !(
+              this.state.requiresNumber
+              ?
+                this.state.entryNumber
+              :
+                true
+            )
+          ||
+            !(
+              this.state.dateRange
+              ?
+                this.state.startDate && this.state.endDate
+              :
+                this.state.entryDate
+            )
         }
-        onTouchTap={this.saveEntry}
+        onTouchTap={this.state.dateRange ? this.saveEntries : this.saveEntry}
       />,
     ];
 
@@ -118,6 +172,12 @@ export default class AddMetric extends React.Component {
         open={this.props.open}
         onRequestClose={this.props.close}
       >
+        <Toggle
+          label="Date range"
+          labelPosition="right"
+          toggled={this.state.dateRange}
+          onToggle={this.handleDateRangeToggle}
+        />
         <SelectField
           floatingLabelText="Metric"
           value={this.state.selectedMetric}
@@ -139,19 +199,59 @@ export default class AddMetric extends React.Component {
               null
           }
         </SelectField>
-        <DatePicker
-          autoOk
-          hintText="Date"
-          errorText={
-            this.state.entryDate
-            ?
-              ''
-            :
-              'This field is required'
-          }
-          value={this.state.entryDate}
-          onChange={this.handleDateChange}
-        />
+        {
+          !this.state.dateRange
+          ?
+            <DatePicker
+              autoOk
+              hintText="Date"
+              errorText={
+                this.state.entryDate
+                ?
+                  ''
+                :
+                  'This field is required'
+              }
+              value={this.state.entryDate}
+              onChange={this.handleDateChange}
+            />
+          :
+            null
+        }
+        {
+          this.state.dateRange
+          ?
+            <div>
+              <DatePicker
+                autoOk
+                hintText="Start date"
+                errorText={
+                  this.state.startDate
+                  ?
+                    ''
+                  :
+                    'This field is required'
+                }
+                value={this.state.startDate}
+                onChange={this.handleStartDateChange}
+              />
+              <DatePicker
+                autoOk
+                hintText="End date"
+                errorText={
+                  this.state.endDate
+                  ?
+                    ''
+                  :
+                    'This field is required'
+                }
+                value={this.state.endDate}
+                onChange={this.handleEndDateChange}
+              />
+            </div>
+          :
+            null
+        }
         {
           this.state.requiresNumber
           ?
