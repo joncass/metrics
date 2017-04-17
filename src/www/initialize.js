@@ -28,7 +28,7 @@ const apisReady = new Promise((resolve, reject) => {
       });
     }
     else {
-      reject(Error('Did not correctly load firebase and/or gapi'));
+      reject(Error('App did not correctly initialize.'));
     }
   };
 });
