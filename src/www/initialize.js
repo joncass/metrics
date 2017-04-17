@@ -8,7 +8,7 @@ const apisReady = new Promise((resolve, reject) => {
       && typeof gapi !== 'undefined'
       && typeof google.charts !== 'undefined'
     ) {
-      google.charts.load('current', { packages: ['calendar'] });
+      google.charts.load('current', { packages: ['calendar', 'corechart'] });
       google.charts.setOnLoadCallback(() => {
         const config = {
           apiKey: 'AIzaSyDVUPVPKc3n8Tg5lSsQk0JRrTOcYsuVfu0',

@@ -33,7 +33,6 @@ export default class ChartItemBinary extends React.Component {
           calendar: {
             cellSize: 10,
           },
-          tooltip: { trigger: 'none' },
           noDataPattern: {
             backgroundColor: grey900,
             color: grey900,
