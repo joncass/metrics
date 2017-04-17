@@ -63,7 +63,7 @@ function onLogIn(googleUser) {
 function handleLogOut() {
   apisReady.then(
     (apis) => {
-      const googleAuth = apis.google.auth2.getAuthInstance();
+      const googleAuth = apis.gAuth.auth2.getAuthInstance();
       googleAuth.signOut().then(() => {
         apis.firebase.auth().signOut();
       });
@@ -85,7 +85,7 @@ export default class Login extends React.Component {
   componentDidMount = () => {
     apisReady.then(
       (apis) => {
-        apis.google.signin2.render('google-log-in', {
+        apis.gAuth.signin2.render('google-log-in', {
           onsuccess: onLogIn,
           width: 36,
         });

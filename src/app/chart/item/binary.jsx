@@ -1,44 +1,74 @@
 // React library
 import React from 'react';
 
+// Material colors
+import { grey900 } from 'material-ui/styles/colors';
+
 // My library
 import Data from '../../data';
+import DateUtil from '../../util/date';
 
 export default class ChartItemBinary extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      metricID: props.metricID,
-      entries: [],
-    };
+    this.metricName = props.metricName;
 
     Data.readUserAndListen(`entry/${props.metricID}`, this.setChartData);
+  }
+
+  componentDidMount = () => {
+    apisReady.then(
+      (apis) => {
+        const gCharts = apis.gCharts;
+        this.dataTable = new gCharts.visualization.DataTable();
+        this.dataTable.addColumn({ type: 'date', id: 'Date' });
+        this.dataTable.addColumn({ type: 'number', id: 'Yes/No' });
+
+        this.chart = new gCharts.visualization.Calendar(this.chartEl);
+
+        this.chartOptions = {
+          title: this.metricName,
+          height: 180,
+          calendar: {
+            cellSize: 10,
+          },
+          tooltip: { trigger: 'none' },
+          noDataPattern: {
+            backgroundColor: grey900,
+            color: grey900,
+          },
+        };
+      },
+      (error) => {
+        throw error;
+      },
+    );
   }
 
   setChartData = (entries) => {
     const entriesArray = Object.keys(entries || {}).map((key) => {
       const entry = entries[key];
-      entry.key = key;
-      return entry;
+      return [DateUtil.stringToDate(entry.date), 1];
     });
 
-    this.setState({ entries: entriesArray });
+    this.dataTable.addRows(entriesArray);
+    this.chart.draw(this.dataTable, this.chartOptions);
   }
 
   render = () => (
-    <div>
-      {this.state.entries.map(entry => (
-        <div key={entry.key}>
-          <div>
-            {entry.date}
-          </div>
-        </div>
-      ))}
-    </div>
+    <div
+      ref={(el) => {
+        this.chartEl = el;
+      }}
+      style={{
+        padding: '20px',
+      }}
+    />
   );
 }
 
 ChartItemBinary.propTypes = {
   metricID: React.PropTypes.string.isRequired,
+  metricName: React.PropTypes.string.isRequired,
 };

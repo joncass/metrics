@@ -29,16 +29,14 @@ export default class ChartItem extends React.Component {
   }
 
   render = () => (
-    <GridTile
-      title={this.state.name}
-      subtitle={this.state.type}
-    >
-      <Paper style={{ width: '100%', height: '100%' }} zDepth={1}>
+    <GridTile>
+      <Paper style={{ width: '100%', height: '100%' }}>
         {
           this.state.itemType
           ?
             <this.state.itemType
               metricID={this.state.metricID}
+              metricName={this.state.name}
             />
           :
             null

@@ -10,6 +10,7 @@ export default class ChartItemNumber extends React.Component {
 
     this.state = {
       metricID: props.metricID,
+      metricName: props.metricName,
       entries: [],
     };
 
@@ -41,4 +42,5 @@ export default class ChartItemNumber extends React.Component {
 
 ChartItemNumber.propTypes = {
   metricID: React.PropTypes.string.isRequired,
+  metricName: React.PropTypes.string.isRequired,
 };
