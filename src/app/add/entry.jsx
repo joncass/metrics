@@ -45,10 +45,15 @@ export default class AddMetric extends React.Component {
   }
 
   saveEntry = () => {
-    Data.addToUserArray(`entry/${this.state.selectedMetric}`, {
+    const entryToSave = {
       date: DateUtil.toString(this.state.entryDate),
-      number: Number(this.state.entryNumber),
-    });
+    };
+
+    if (this.state.entryNumber) {
+      entryToSave.number = Number(this.state.entryNumber);
+    }
+
+    Data.addToUserArray(`entry/${this.state.selectedMetric}`, entryToSave);
     this.props.close();
     this.resetState();
   }
@@ -58,13 +63,21 @@ export default class AddMetric extends React.Component {
       metric.key === value
     ));
 
+    const requiresNumber = selectedMetric.type === Util.numberMetricType();
+
     this.setState({
-      requiresNumber: selectedMetric.type === Util.numberMetricType(),
+      requiresNumber,
     });
 
     this.setState({
       selectedMetric: value,
     });
+
+    if (!requiresNumber) {
+      this.setState({
+        entryNumber: null,
+      });
+    }
   }
 
   handleDateChange = (event, date) => {
