@@ -47,7 +47,7 @@ export default class AddMetric extends React.Component {
   saveEntry = () => {
     Data.addToUserArray(`entry/${this.state.selectedMetric}`, {
       date: DateUtil.toString(this.state.entryDate),
-      number: this.state.entryNumber,
+      number: Number(this.state.entryNumber),
     });
     this.props.close();
     this.resetState();

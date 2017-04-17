@@ -10,7 +10,7 @@ import TextField from 'material-ui/TextField';
 
 // My library
 import Data from '../data';
-import Util from '../util/metric/type';
+import MetricTypeUtil from '../util/metric/type';
 
 export default class AddMetric extends React.Component {
   constructor(props) {
@@ -93,7 +93,7 @@ export default class AddMetric extends React.Component {
           onChange={this.handleTypeChange}
         >
           {
-            Util.metricTypes().map(type => (
+            MetricTypeUtil.metricTypes().map(type => (
               <MenuItem
                 key={type.id}
                 value={type.id}
