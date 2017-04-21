@@ -15,7 +15,7 @@ import Data from '../data';
 import DateUtil from '../util/date';
 import Util from '../util/metric/type';
 
-export default class AddMetric extends React.Component {
+export default class AddEntry extends React.Component {
   constructor(props) {
     super(props);
 
@@ -276,7 +276,7 @@ export default class AddMetric extends React.Component {
   }
 }
 
-AddMetric.propTypes = {
+AddEntry.propTypes = {
   open: React.PropTypes.bool.isRequired,
   close: React.PropTypes.func.isRequired,
 };
