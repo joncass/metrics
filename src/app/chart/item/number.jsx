@@ -25,7 +25,6 @@ export default class ChartItemNumber extends React.Component {
         this.chart = new gCharts.visualization.ColumnChart(this.chartEl);
 
         this.chartOptions = {
-          title: this.metricName,
           legend: 'none',
           height: 140,
           fontSize: 8,
@@ -38,11 +37,15 @@ export default class ChartItemNumber extends React.Component {
   }
 
   setChartData = (entries) => {
-    const entriesArray = Object.keys(entries || {}).map((key) => {
+    const entriesArray = [];
+    let total = 0;
+    Object.keys(entries || {}).forEach((key) => {
       const entry = entries[key];
-      return [DateUtil.stringToDate(entry.date), entry.number];
+      entriesArray.push([DateUtil.stringToDate(entry.date), entry.number]);
+      total += entry.number;
     });
 
+    this.chartOptions.title = `${this.metricName}\nTotal: ${total}`;
     this.dataTable.addRows(entriesArray);
     this.chart.draw(this.dataTable, this.chartOptions);
   }
