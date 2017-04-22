@@ -79,7 +79,7 @@ export default class Today extends React.Component {
 
     // Mark the current task as completed today, and save
     const currentTask = taskToComplete;
-    currentTask.lastCompleted = (new Date()).toISOString().split(/T/)[0];
+    currentTask.lastCompleted = DateUtil.localToday();
     this.setState({ tasks });
 
     // Update the task with today as last completed
@@ -104,8 +104,7 @@ export default class Today extends React.Component {
   }
 
   renderTask = (task) => {
-    const today = new Date();
-    if (DateUtil.toString(today) === task.lastCompleted) {
+    if (DateUtil.localToday() === task.lastCompleted) {
       return null;
     }
 
