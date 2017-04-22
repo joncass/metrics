@@ -28,7 +28,6 @@ export default class ChartItemBinary extends React.Component {
         this.chart = new gCharts.visualization.Calendar(this.chartEl);
 
         this.chartOptions = {
-          title: this.metricName,
           height: 180,
           calendar: {
             cellSize: 10,
@@ -49,7 +48,24 @@ export default class ChartItemBinary extends React.Component {
     const entriesArray = Object.keys(entries || {}).map((key) => {
       const entry = entries[key];
       return [DateUtil.stringToDate(entry.date), 1];
+    }).sort((a, b) => {
+      if (a[0].getTime() < b[0].getTime()) {
+        return 1;
+      }
+      return -1;
     });
+
+    let index = 0;
+    let mostRecent = entriesArray[index];
+    let inARow = mostRecent;
+    while (inARow) {
+      index += 1;
+      const nextRecent = entriesArray[index];
+      inARow = nextRecent && (mostRecent[0] - nextRecent[0] <= 86400000);
+      mostRecent = nextRecent;
+    }
+
+    this.chartOptions.title = `${this.metricName} ... streak: ${index}`;
 
     this.dataTable.addRows(entriesArray);
     this.chart.draw(this.dataTable, this.chartOptions);
