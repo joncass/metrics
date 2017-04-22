@@ -40,13 +40,15 @@ export default class AddHabit extends React.Component {
   }
 
   saveHabit = () => {
-    const habitToSave = {};
+    const habitToSave = {
+      metric: this.state.selectedMetric,
+    };
 
     if (this.state.entryNumber) {
       habitToSave.number = Number(this.state.entryNumber);
     }
 
-    Data.writeUser(`habit/${this.state.selectedMetric}`, habitToSave);
+    Data.addToUserArray('habit', habitToSave);
     this.resetState();
   }
 

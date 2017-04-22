@@ -7,61 +7,126 @@ import Chip from 'material-ui/Chip';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
 
+// My library
+import Data from './data';
+import DateUtil from './util/date';
+
+const styles = {
+  chip: {
+    margin: 4,
+  },
+  wrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+};
+
 export default class Today extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      percentCompleted: 0,
-      tasksCompleted: 0,
-      todaysTasks: [
-                { id: 0, name: 'Get up' },
-                { id: 1, name: 'AM exercise' },
-                { id: 2, name: 'Read' },
-                { id: 3, name: 'PM exercise' },
-                { id: 4, name: 'Meditate' },
-                { id: 5, name: 'Floss' },
-      ],
+      metrics: [],
+      tasks: [],
       snackbarOpen: false,
     };
 
-    this.styles = {
-      chip: {
-        margin: 4,
-      },
-      wrapper: {
-        display: 'flex',
-        flexWrap: 'wrap',
-      },
-    };
+    Data.readUserAndListen('habit', this.setTasks);
+    Data.readUserAndListen('metric', this.setMetrics);
   }
 
-  completeTask = (id) => {
-    const todaysTasks = this.state.todaysTasks.filter(task => task.id !== id);
-    this.setState({ todaysTasks });
+  setMetrics = (metrics) => {
+    const metricsArray = Object.keys(metrics || {}).map((key) => {
+      const val = metrics[key];
+      val.key = key;
+      return val;
+    });
 
-    const tasksCompleted = this.state.tasksCompleted + 1;
-    this.setState({ tasksCompleted });
+    this.setState({ metrics: metricsArray });
+  }
 
-    const tasksRemaining = todaysTasks.length;
-    const totalTasks = tasksRemaining + tasksCompleted;
-    const percentCompleted = (tasksCompleted * 100) / totalTasks;
+  setTasks = (tasks) => {
+    const taskArray = Object.keys(tasks || {}).map((key) => {
+      const val = tasks[key];
+      val.key = key;
+      return val;
+    });
+
+    this.setState({ tasks: taskArray });
+    this.setPercentCompleted(taskArray);
+  }
+
+  setPercentCompleted = (tasks) => {
+    // Update the completed percentage
+    const numCompleted = tasks.filter(task => (task.lastCompleted)).length;
+    const percentCompleted = (numCompleted * 100) / tasks.length;
     this.setState({ percentCompleted });
 
-    if (tasksCompleted === totalTasks) {
+    // If all the tasks for the day are done, send a nice message!
+    if (percentCompleted === 100) {
       this.setState({ snackbarOpen: true });
     }
   }
 
-  renderTask = taskData => (
-    <Chip
-      key={taskData.id}
-      onRequestDelete={() => this.completeTask(taskData.id)}
-      style={this.styles.chip}
-    >
-      {taskData.name}
-    </Chip>
-  );
+  metricForTask = task => (
+    this.state.metrics.find(metric => (
+      task.metric === metric.key
+    ))
+  )
+
+  completeTask = (taskToComplete) => {
+    const tasks = this.state.tasks;
+
+    // Mark the current task as completed today, and save
+    const currentTask = taskToComplete;
+    currentTask.lastCompleted = (new Date()).toISOString().split(/T/)[0];
+    this.setState({ tasks });
+
+    // Update the task with today as last completed
+    const taskUpdate = {
+      metric: currentTask.metric,
+    };
+    if (currentTask.number) {
+      taskUpdate.number = Number(currentTask.number);
+    }
+    Data.writeUser(`habit/${currentTask.key}`, currentTask);
+
+    // Add an entry for today, with the number associated with the habit
+    const entryToSave = {
+      date: currentTask.lastCompleted,
+    };
+    if (currentTask.number) {
+      entryToSave.number = Number(currentTask.number);
+    }
+    Data.addToUserArray(`entry/${currentTask.metric}`, entryToSave);
+
+    this.setPercentCompleted(tasks);
+  }
+
+  renderTask = (task) => {
+    const today = new Date();
+    if (DateUtil.toString(today) === task.lastCompleted) {
+      return null;
+    }
+
+    return (
+      <Chip
+        key={this.metricForTask(task).key}
+        onRequestDelete={() => this.completeTask(task)}
+        style={styles.chip}
+      >
+        {this.metricForTask(task).name}
+        {
+          task.number
+          ?
+            ': '
+          :
+            ''
+        }
+        {task.number}
+      </Chip>
+    );
+  }
 
   render = () => (
     <div>
@@ -81,8 +146,15 @@ export default class Today extends React.Component {
             />
           </div>
         </CardMedia>
-        <CardText expandable style={this.styles.wrapper}>
-          {this.state.todaysTasks.map(this.renderTask, this)}
+        <CardText expandable style={styles.wrapper}>
+          {
+            this.state.metrics.length
+            && this.state.tasks.length
+            ?
+              this.state.tasks.map(this.renderTask, this)
+            :
+              null
+          }
         </CardText>
       </Card>
       <Snackbar
