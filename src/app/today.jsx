@@ -58,7 +58,9 @@ export default class Today extends React.Component {
 
   setPercentCompleted = (tasks) => {
     // Update the completed percentage
-    const numCompleted = tasks.filter(task => (task.lastCompleted)).length;
+    const numCompleted = tasks.filter(task => (
+      task.lastCompleted === DateUtil.localToday()
+    )).length;
     const percentCompleted = (numCompleted * 100) / tasks.length;
     this.setState({ percentCompleted });
 
