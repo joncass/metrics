@@ -12,7 +12,7 @@ import Toggle from 'material-ui/Toggle';
 
 // My library
 import Data from '../data';
-import DateUtil from '../util/date';
+import EntryData from '../data/entry';
 import Util from '../util/metric/type';
 
 export default class AddEntry extends React.Component {
@@ -47,15 +47,12 @@ export default class AddEntry extends React.Component {
   }
 
   saveEntry = () => {
-    const entryToSave = {
-      date: DateUtil.toString(this.state.entryDate),
-    };
+    const entry = EntryData.createEntry(
+      this.state.entryDate,
+      this.state.entryNumber,
+    );
 
-    if (this.state.entryNumber) {
-      entryToSave.number = Number(this.state.entryNumber);
-    }
-
-    Data.addToUserArray(`entry/${this.state.selectedMetric}`, entryToSave);
+    EntryData.addEntry(this.state.selectedMetric, entry);
     this.resetState();
   }
 
@@ -64,17 +61,11 @@ export default class AddEntry extends React.Component {
     const start = this.state.startDate;
     const end = this.state.endDate;
     while (start.getTime() <= end.getTime()) {
-      const entry = {
-        date: DateUtil.toString(start),
-      };
-      if (this.state.entryNumber) {
-        entry.number = Number(this.state.entryNumber);
-      }
-      entries.push(entry);
+      entries.push(EntryData.createEntry(start, this.state.entryNumber));
       start.setDate(start.getDate() + 1);
     }
 
-    Data.addMultipleToUserArray(`entry/${this.state.selectedMetric}`, entries);
+    EntryData.addEntries(this.state.selectedMetric, entries);
     this.resetState();
   }
 
