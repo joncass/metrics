@@ -57,6 +57,16 @@ export default {
       },
     );
   },
+  delete(node) {
+    this.firebaseDBRef(node).then(
+      (ref) => {
+        ref.remove();
+      },
+      (error) => {
+        throw error;
+      },
+    );
+  },
   readUser(node, callback) {
     this.userID().then(
       (userID) => {
@@ -81,6 +91,16 @@ export default {
     this.userID().then(
       (userID) => {
         this.write(`${userID}/${node}`, data);
+      },
+      (error) => {
+        throw error;
+      },
+    );
+  },
+  deleteUser(node) {
+    this.userID().then(
+      (userID) => {
+        this.delete(`${userID}/${node}`);
       },
       (error) => {
         throw error;

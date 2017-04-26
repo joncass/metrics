@@ -5,16 +5,17 @@ import React from 'react';
 import { grey900 } from 'material-ui/styles/colors';
 
 // My library
-import Data from '../../data';
 import DateUtil from '../../util/date';
+import EntryData from '../../data/entry';
 
 export default class ChartItemBinary extends React.Component {
   constructor(props) {
     super(props);
 
+    this.metricID = props.metricID;
     this.metricName = props.metricName;
 
-    Data.readUserAndListen(`entry/${props.metricID}`, this.setChartData);
+    EntryData.getEntriesAndListen(this.metricID, this.setChartData);
   }
 
   componentDidMount = () => {
@@ -26,6 +27,11 @@ export default class ChartItemBinary extends React.Component {
         this.dataTable.addColumn({ type: 'number', id: 'Yes/No' });
 
         this.chart = new gCharts.visualization.Calendar(this.chartEl);
+        gCharts.visualization.events.addListener(
+          this.chart,
+          'select',
+          this.handleSelect,
+        );
 
         this.chartOptions = {
           height: 180,
@@ -67,8 +73,27 @@ export default class ChartItemBinary extends React.Component {
 
     this.chartOptions.title = `${this.metricName} ... streak: ${index}`;
 
+    const numberOfRows = this.dataTable.getNumberOfRows();
+    if (numberOfRows) {
+      this.dataTable.removeRows(0, numberOfRows + 1);
+    }
     this.dataTable.addRows(entriesArray);
+
     this.chart.draw(this.dataTable, this.chartOptions);
+  }
+
+  handleSelect = () => {
+    const selectionArray = this.chart.getSelection();
+    const selection = selectionArray[0];
+
+    const date = new Date(selection.date);
+
+    if ('row' in selection) {
+      EntryData.deleteEntry(this.metricID, DateUtil.toString(date));
+    }
+    else {
+      EntryData.addEntry(this.metricID, EntryData.createEntry(date));
+    }
   }
 
   render = () => (

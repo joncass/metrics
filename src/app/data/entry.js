@@ -18,4 +18,21 @@ export default {
   addEntries(metric, entries) {
     Data.addMultipleToUserArray(`entry/${metric}`, entries);
   },
+  getEntries(metric, callback) {
+    const node = `entry/${metric}`;
+    Data.readUser(node, callback);
+  },
+  getEntriesAndListen(metric, callback) {
+    const node = `entry/${metric}`;
+    Data.readUserAndListen(node, callback);
+  },
+  deleteEntry(metric, date) {
+    this.getEntries(metric, (entries) => {
+      const deletePair = Object.entries(entries || {}).find(entry => (
+        entry[1].date === date
+      ));
+      const entryID = deletePair[0];
+      Data.deleteUser(`entry/${metric}/${entryID}`);
+    });
+  },
 };
