@@ -2,16 +2,17 @@
 import React from 'react';
 
 // My library
-import Data from '../../data';
 import DateUtil from '../../util/date';
+import EntryData from '../../data/entry';
 
 export default class ChartItemNumber extends React.Component {
   constructor(props) {
     super(props);
 
+    this.metricID = props.metricID;
     this.metricName = props.metricName;
 
-    Data.readUserAndListen(`entry/${props.metricID}`, this.setChartData);
+    EntryData.getEntriesAndListen(this.metricID, this.setChartData);
   }
 
   componentDidMount = () => {
