@@ -24,6 +24,11 @@ export default class ChartItemNumber extends React.Component {
         this.dataTable.addColumn({ type: 'number', id: 'Number' });
 
         this.chart = new gCharts.visualization.ColumnChart(this.chartEl);
+        gCharts.visualization.events.addListener(
+          this.chart,
+          'select',
+          this.handleSelect,
+        );
 
         this.chartOptions = {
           legend: 'none',
@@ -47,8 +52,22 @@ export default class ChartItemNumber extends React.Component {
     });
 
     this.chartOptions.title = `${this.metricName}\nTotal: ${total}`;
+
+    const numberOfRows = this.dataTable.getNumberOfRows();
+    if (numberOfRows) {
+      this.dataTable.removeRows(0, numberOfRows + 1);
+    }
+
     this.dataTable.addRows(entriesArray);
     this.chart.draw(this.dataTable, this.chartOptions);
+  }
+
+  handleSelect = () => {
+    const selectionArray = this.chart.getSelection();
+    const selection = selectionArray[0];
+
+    const date = this.dataTable.getValue(selection.row, selection.column - 1);
+    EntryData.deleteEntry(this.metricID, DateUtil.toString(date));
   }
 
   render = () => (
