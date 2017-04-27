@@ -2,7 +2,7 @@ import Data from '../data';
 import DateUtil from '../util/date';
 
 export default {
-  createEntry(date, number) {
+  createEntry(date, number, note) {
     let entryDate = date;
     if (typeof entryDate !== 'string') {
       entryDate = DateUtil.toString(entryDate);
@@ -13,6 +13,9 @@ export default {
     };
     if (number) {
       entry.number = Number(number);
+    }
+    if (note) {
+      entry.note = note;
     }
 
     return entry;

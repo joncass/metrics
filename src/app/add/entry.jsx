@@ -44,12 +44,14 @@ export default class AddEntry extends React.Component {
     this.setState({ endDate: null });
     this.setState({ entryNumber: null });
     this.setState({ dateRange: false });
+    this.setState({ entryNote: null });
   }
 
   saveEntry = () => {
     const entry = EntryData.createEntry(
       this.state.entryDate,
       this.state.entryNumber,
+      this.state.entryNote,
     );
 
     EntryData.addEntry(this.state.selectedMetric, entry);
@@ -112,6 +114,12 @@ export default class AddEntry extends React.Component {
   handleNumberChange = (event) => {
     this.setState({
       entryNumber: event.target.value,
+    });
+  }
+
+  handleNoteChange = (event) => {
+    this.setState({
+      entryNote: event.target.value,
     });
   }
 
@@ -260,7 +268,11 @@ export default class AddEntry extends React.Component {
               onChange={this.handleNumberChange}
             />
           :
-            null
+            <TextField
+              floatingLabelText="Note"
+              value={this.state.entryNote || ''}
+              onChange={this.handleNoteChange}
+            />
         }
       </Dialog>
     );

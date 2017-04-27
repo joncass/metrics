@@ -24,6 +24,7 @@ export default class ChartItemBinary extends React.Component {
         this.dataTable = new gCharts.visualization.DataTable();
         this.dataTable.addColumn({ type: 'date', id: 'Date' });
         this.dataTable.addColumn({ type: 'number', id: 'Yes/No' });
+        this.dataTable.addColumn({ type: 'string', role: 'tooltip' });
 
         this.chart = new gCharts.visualization.Calendar(this.chartEl);
         gCharts.visualization.events.addListener(
@@ -52,7 +53,11 @@ export default class ChartItemBinary extends React.Component {
   setChartData = (entries) => {
     const entriesArray = Object.keys(entries || {}).map((key) => {
       const entry = entries[key];
-      return [DateUtil.stringToDate(entry.date), 1];
+      return [
+        DateUtil.stringToDate(entry.date),
+        1,
+        entry.note || 'completed',
+      ];
     }).sort((a, b) => {
       if (a[0].getTime() < b[0].getTime()) {
         return 1;
@@ -102,6 +107,7 @@ export default class ChartItemBinary extends React.Component {
       }}
       style={{
         padding: '20px',
+        color: grey900,
       }}
     />
   );
