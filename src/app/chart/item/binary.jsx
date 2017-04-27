@@ -13,7 +13,6 @@ export default class ChartItemBinary extends React.Component {
     super(props);
 
     this.metricID = props.metricID;
-    this.metricName = props.metricName;
 
     EntryData.getEntriesAndListen(this.metricID, this.setChartData);
   }
@@ -71,7 +70,7 @@ export default class ChartItemBinary extends React.Component {
       mostRecent = nextRecent;
     }
 
-    this.chartOptions.title = `${this.metricName} ... streak: ${index}`;
+    this.chartOptions.title = `Streak: ${index}`;
 
     const numberOfRows = this.dataTable.getNumberOfRows();
     if (numberOfRows) {
@@ -110,5 +109,4 @@ export default class ChartItemBinary extends React.Component {
 
 ChartItemBinary.propTypes = {
   metricID: React.PropTypes.string.isRequired,
-  metricName: React.PropTypes.string.isRequired,
 };

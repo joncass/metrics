@@ -10,7 +10,6 @@ export default class ChartItemNumber extends React.Component {
     super(props);
 
     this.metricID = props.metricID;
-    this.metricName = props.metricName;
 
     EntryData.getEntriesAndListen(this.metricID, this.setChartData);
   }
@@ -51,7 +50,7 @@ export default class ChartItemNumber extends React.Component {
       total += entry.number;
     });
 
-    this.chartOptions.title = `${this.metricName}\nTotal: ${total}`;
+    this.chartOptions.title = `Total: ${total}`;
 
     const numberOfRows = this.dataTable.getNumberOfRows();
     if (numberOfRows) {
@@ -84,5 +83,4 @@ export default class ChartItemNumber extends React.Component {
 
 ChartItemNumber.propTypes = {
   metricID: React.PropTypes.string.isRequired,
-  metricName: React.PropTypes.string.isRequired,
 };
