@@ -3,8 +3,13 @@ import DateUtil from '../util/date';
 
 export default {
   createEntry(date, number) {
+    let entryDate = date;
+    if (typeof entryDate !== 'string') {
+      entryDate = DateUtil.toString(entryDate);
+    }
+
     const entry = {
-      date: DateUtil.toString(date),
+      date: entryDate,
     };
     if (number) {
       entry.number = Number(number);
@@ -12,27 +17,27 @@ export default {
 
     return entry;
   },
-  addEntry(metric, entry) {
-    Data.addToUserArray(`entry/${metric}`, entry);
+  addEntry(metricID, entry) {
+    Data.addToUserArray(`entry/${metricID}`, entry);
   },
-  addEntries(metric, entries) {
-    Data.addMultipleToUserArray(`entry/${metric}`, entries);
+  addEntries(metricID, entries) {
+    Data.addMultipleToUserArray(`entry/${metricID}`, entries);
   },
-  getEntries(metric, callback) {
-    const node = `entry/${metric}`;
+  getEntries(metricID, callback) {
+    const node = `entry/${metricID}`;
     Data.readUser(node, callback);
   },
-  getEntriesAndListen(metric, callback) {
-    const node = `entry/${metric}`;
+  getEntriesAndListen(metricID, callback) {
+    const node = `entry/${metricID}`;
     Data.readUserAndListen(node, callback);
   },
-  deleteEntry(metric, date) {
-    this.getEntries(metric, (entries) => {
+  deleteEntry(metricID, date) {
+    this.getEntries(metricID, (entries) => {
       const deletePair = Object.entries(entries || {}).find(entry => (
         entry[1].date === date
       ));
       const entryID = deletePair[0];
-      Data.deleteUser(`entry/${metric}/${entryID}`);
+      Data.deleteUser(`entry/${metricID}/${entryID}`);
     });
   },
 };

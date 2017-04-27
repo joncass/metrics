@@ -2,14 +2,20 @@
 import React from 'react';
 
 // Material library
+import Avatar from 'material-ui/Avatar';
 import { Card, CardHeader, CardMedia, CardText } from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
 
+// Material icons
+import CheckIcon from 'material-ui/svg-icons/action/check-circle';
+
 // My library
-import Data from './data';
 import DateUtil from './util/date';
+import EntryData from './data/entry';
+import HabitData from './data/habit';
+import MetricData from './data/metric';
 
 const styles = {
   chip: {
@@ -31,8 +37,8 @@ export default class Today extends React.Component {
       snackbarOpen: false,
     };
 
-    Data.readUserAndListen('habit', this.setTasks);
-    Data.readUserAndListen('metric', this.setMetrics);
+    HabitData.getHabitsAndListen(this.setTasks);
+    MetricData.getMetricsAndListen(this.setMetrics);
   }
 
   setMetrics = (metrics) => {
@@ -79,30 +85,20 @@ export default class Today extends React.Component {
   completeTask = (taskToComplete) => {
     const tasks = this.state.tasks;
 
-    // Mark the current task as completed today, and save
-    const currentTask = taskToComplete;
-    currentTask.lastCompleted = DateUtil.localToday();
+    HabitData.completeTask(taskToComplete);
     this.setState({ tasks });
 
-    // Update the task with today as last completed
-    const taskUpdate = {
-      metric: currentTask.metric,
-    };
-    if (currentTask.number) {
-      taskUpdate.number = Number(currentTask.number);
-    }
-    Data.writeUser(`habit/${currentTask.key}`, currentTask);
-
-    // Add an entry for today, with the number associated with the habit
-    const entryToSave = {
-      date: currentTask.lastCompleted,
-    };
-    if (currentTask.number) {
-      entryToSave.number = Number(currentTask.number);
-    }
-    Data.addToUserArray(`entry/${currentTask.metric}`, entryToSave);
+    const entryToSave = EntryData.createEntry(
+      taskToComplete.lastCompleted,
+      taskToComplete.number,
+    );
+    EntryData.addEntry(taskToComplete.metric, entryToSave);
 
     this.setPercentCompleted(tasks);
+  }
+
+  deleteHabit = (task) => {
+    HabitData.deleteHabit(task.key);
   }
 
   renderTask = (task) => {
@@ -113,9 +109,13 @@ export default class Today extends React.Component {
     return (
       <Chip
         key={this.metricForTask(task).key}
-        onRequestDelete={() => this.completeTask(task)}
+        onRequestDelete={() => this.deleteHabit(task)}
         style={styles.chip}
       >
+        <Avatar
+          icon={<CheckIcon />}
+          onTouchTap={() => this.completeTask(task)}
+        />
         {this.metricForTask(task).name}
         {
           task.number
