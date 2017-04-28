@@ -21,6 +21,7 @@ export default class AddEntry extends React.Component {
 
     this.state = {
       metrics: [],
+      dateRange: false,
     };
 
     Data.readUserAndListen('metric', this.setMetrics);
