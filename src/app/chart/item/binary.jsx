@@ -34,7 +34,7 @@ export default class ChartItemBinary extends React.Component {
         );
 
         this.chartOptions = {
-          height: 300,
+          height: 200,
           calendar: {
             cellSize: 10,
           },

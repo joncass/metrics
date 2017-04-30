@@ -2,12 +2,11 @@
 import React from 'react';
 
 // Material library
-import { GridTile } from 'material-ui/GridList';
-import Paper from 'material-ui/Paper';
+import { Card, CardActions, CardTitle } from 'material-ui/Card';
 
 // Material icons
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
-import IconButton from 'material-ui/IconButton';
+import FlatButton from 'material-ui/FlatButton';
 
 // My library
 import Confirm from '../confirm';
@@ -48,27 +47,19 @@ export default class ChartItem extends React.Component {
   }
 
   render = () => (
-    <GridTile
-      title={this.state.name}
-      actionIcon={
-        <IconButton>
-          <DeleteIcon
-            onClick={() => this.setState({ deletingMetric: true })}
+    <Card style={{ margin: '20px' }}>
+      <CardTitle
+        title={this.state.name}
+      />
+      {
+        this.state.itemType
+        ?
+          <this.state.itemType
+            metricID={this.metricID}
           />
-        </IconButton>
+        :
+          null
       }
-    >
-      <Paper style={{ width: '100%', height: '96%', padding: '2%' }}>
-        {
-          this.state.itemType
-          ?
-            <this.state.itemType
-              metricID={this.metricID}
-            />
-          :
-            null
-        }
-      </Paper>
       {
         this.state.name
         ?
@@ -86,7 +77,15 @@ export default class ChartItem extends React.Component {
         :
           null
       }
-    </GridTile>
+      <CardActions>
+        <FlatButton
+          label="delete"
+          primary
+          icon={<DeleteIcon />}
+          onClick={() => this.setState({ deletingMetric: true })}
+        />
+      </CardActions>
+    </Card>
   );
 }
 

@@ -31,7 +31,7 @@ export default class ChartItemNumber extends React.Component {
 
         this.chartOptions = {
           legend: 'none',
-          height: 300,
+          height: 200,
           fontSize: 8,
         };
       },
