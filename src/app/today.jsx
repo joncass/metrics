@@ -134,39 +134,47 @@ export default class Today extends React.Component {
 
   render = () => (
     <div>
-      <Card>
-        <CardHeader
-          title="Today"
-          actAsExpander
-          showExpandableButton
-        />
-        <CardMedia>
-          {/* Wrap in div to prevent "cannot call prepareStyles()" error */}
+      {
+        this.state.tasks.length
+        ?
           <div>
-            <LinearProgress
-              style={{ height: 10 }}
-              color={pinkA200}
-              mode="determinate"
-              value={this.state.percentCompleted}
+            <Card>
+              <CardHeader
+                title="Today"
+                actAsExpander
+                showExpandableButton
+              />
+              <CardMedia>
+                {/* Wrap in div to prevent "cannot call prepareStyles()" err */}
+                <div>
+                  <LinearProgress
+                    style={{ height: 10 }}
+                    color={pinkA200}
+                    mode="determinate"
+                    value={this.state.percentCompleted}
+                  />
+                </div>
+              </CardMedia>
+              <CardText expandable style={styles.wrapper}>
+                {
+                  this.state.metrics.length
+                  && this.state.tasks.length
+                  ?
+                    this.state.tasks.map(this.renderTask, this)
+                  :
+                    null
+                }
+              </CardText>
+            </Card>
+            <Snackbar
+              open={this.state.snackbarOpen}
+              message="Nice! You finished all your tasks for today!"
+              autoHideDuration={3000}
             />
           </div>
-        </CardMedia>
-        <CardText expandable style={styles.wrapper}>
-          {
-            this.state.metrics.length
-            && this.state.tasks.length
-            ?
-              this.state.tasks.map(this.renderTask, this)
-            :
-              null
-          }
-        </CardText>
-      </Card>
-      <Snackbar
-        open={this.state.snackbarOpen}
-        message="Nice! You finished all your tasks for today!"
-        autoHideDuration={3000}
-      />
+        :
+          null
+      }
     </div>
   );
 }

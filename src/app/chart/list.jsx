@@ -7,6 +7,7 @@ import { Tab, Tabs } from 'material-ui/Tabs';
 // My library
 import ChartItem from '../chart/item';
 import Data from '../data';
+import UserWelcome from '../welcome/user';
 
 export default class Charts extends React.Component {
   constructor(props) {
@@ -30,23 +31,27 @@ export default class Charts extends React.Component {
   }
 
   render = () => (
-    <Tabs>
+    <div>
       {
         this.state.metrics.length
         ?
-          this.state.metrics.map(metric => (
-            <Tab
-              label={metric.name}
-              key={metric.key}
-            >
-              <ChartItem
-                metricID={metric.key}
-              />
-            </Tab>
-          ))
+          <Tabs>
+            {
+              this.state.metrics.map(metric => (
+                <Tab
+                  label={metric.name}
+                  key={metric.key}
+                >
+                  <ChartItem
+                    metricID={metric.key}
+                  />
+                </Tab>
+              ))
+            }
+          </Tabs>
         :
-          null
+          <UserWelcome />
       }
-    </Tabs>
+    </div>
   );
 }

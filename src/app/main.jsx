@@ -3,6 +3,7 @@ import React from 'react';
 
 // My library
 import ChartList from './chart/list';
+import GuestWelcome from './welcome/guest';
 import Navigation from './navigation';
 import Today from './today';
 
@@ -41,7 +42,13 @@ export default class Main extends React.Component {
         }
       </div>
       <div style={{ flex: 1, overflow: 'auto' }}>
-        { this.state.loggedIn ? <ChartList /> : null }
+        {
+          this.state.loggedIn
+          ?
+            <ChartList />
+          :
+            <GuestWelcome />
+        }
       </div>
     </div>
   );
