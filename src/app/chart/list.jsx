@@ -2,10 +2,10 @@
 import React from 'react';
 
 // Material library
-import { GridList } from 'material-ui/GridList';
+import { Tab, Tabs } from 'material-ui/Tabs';
 
 // My library
-import ChartItem from './item';
+import ChartItem from '../chart/item';
 import Data from '../data';
 
 export default class Charts extends React.Component {
@@ -30,24 +30,25 @@ export default class Charts extends React.Component {
   }
 
   render = () => (
-    <GridList
-      cellHeight={180}
-      style={{ width: '98%', padding: '1%' }}
-    >
+    <Tabs>
       {
         this.state.metrics.length
         ?
           /* Note: have to pass key to make material UI happy, but have to
             pass metricID since key is reserved by React. */
           this.state.metrics.map(metric => (
-            <ChartItem
-              key={metric.key}
-              metricID={metric.key}
-            />
+            <Tab
+              label={metric.name}
+            >
+              <ChartItem
+                key={metric.key}
+                metricID={metric.key}
+              />
+            </Tab>
           ))
         :
           null
       }
-    </GridList>
+    </Tabs>
   );
 }

@@ -58,7 +58,7 @@ export default class ChartItem extends React.Component {
         </IconButton>
       }
     >
-      <Paper style={{ width: '100%', height: '100%' }}>
+      <Paper style={{ width: '100%', height: '96%', padding: '2%' }}>
         {
           this.state.itemType
           ?
