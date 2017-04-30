@@ -51,24 +51,7 @@ export default class ChartItemBinary extends React.Component {
         1,
         entry.note || 'completed',
       ];
-    }).sort((a, b) => {
-      if (a[0].getTime() < b[0].getTime()) {
-        return 1;
-      }
-      return -1;
     });
-
-    let index = 0;
-    let mostRecent = entriesArray[index];
-    let inARow = mostRecent;
-    while (inARow) {
-      index += 1;
-      const nextRecent = entriesArray[index];
-      inARow = nextRecent && (mostRecent[0] - nextRecent[0] <= 86400000);
-      mostRecent = nextRecent;
-    }
-
-    this.chartOptions.title = `Streak: ${index}`;
 
     const numberOfRows = this.dataTable.getNumberOfRows();
     if (numberOfRows) {

@@ -42,15 +42,10 @@ export default class ChartItemNumber extends React.Component {
   }
 
   setChartData = (entries) => {
-    const entriesArray = [];
-    let total = 0;
-    Object.keys(entries || {}).forEach((key) => {
+    const entriesArray = Object.keys(entries || {}).map((key) => {
       const entry = entries[key];
-      entriesArray.push([DateUtil.stringToDate(entry.date), entry.number]);
-      total += entry.number;
+      return [DateUtil.stringToDate(entry.date), entry.number];
     });
-
-    this.chartOptions.title = `Total: ${total}`;
 
     const numberOfRows = this.dataTable.getNumberOfRows();
     if (numberOfRows) {

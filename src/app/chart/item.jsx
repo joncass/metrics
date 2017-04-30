@@ -10,6 +10,8 @@ import FlatButton from 'material-ui/FlatButton';
 
 // My library
 import Confirm from '../confirm';
+import DateUtil from '../util/date';
+import EntryData from '../data/entry';
 import MetricData from '../data/metric';
 import MetricTypeUtil from '../util/metric/type';
 
@@ -22,15 +24,37 @@ export default class ChartItem extends React.Component {
       deletingMetric: false,
     };
 
-    MetricData.getMetricAndListen(this.metricID, this.setChartProperties);
+    EntryData.getEntriesAndListen(this.metricID, this.setEntryProps);
+    MetricData.getMetricAndListen(this.metricID, this.setMetricProps);
   }
 
-  setChartProperties = (metric) => {
+  setEntryProps = (entries) => {
+    let total = 0;
+    Object.keys(entries || {}).forEach((key) => {
+      const entry = entries[key];
+      total += entry.number || 0;
+    });
+
+    let subtitle;
+    if (total) {
+      subtitle = `Total ${total}`;
+    }
+    else {
+      const numEntries = Object.keys(entries).length;
+      const dayInYear = DateUtil.dayInYear();
+      const percent = Math.round((numEntries / dayInYear) * 100);
+      subtitle = `Consistency ${percent}%`;
+    }
+
+    this.setState({ subtitle });
+  }
+
+  setMetricProps = (metric) => {
     if (metric) {
       this.setState({ name: metric.name });
       this.setState({ type: metric.type });
 
-      const ItemType = MetricTypeUtil.chartItemForType(this.state.type);
+      const ItemType = MetricTypeUtil.chartItemForType(metric.type);
       this.setState({ itemType: ItemType });
     }
     else {
@@ -50,6 +74,7 @@ export default class ChartItem extends React.Component {
     <Card style={{ margin: '20px' }}>
       <CardTitle
         title={this.state.name}
+        subtitle={this.state.subtitle}
       />
       {
         this.state.itemType
