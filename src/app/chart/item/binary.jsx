@@ -1,9 +1,6 @@
 // React library
 import React from 'react';
 
-// Material colors
-import { grey900 } from 'material-ui/styles/colors';
-
 // My library
 import DateUtil from '../../util/date';
 import EntryData from '../../data/entry';
@@ -37,10 +34,6 @@ export default class ChartItemBinary extends React.Component {
           height: 200,
           calendar: {
             cellSize: 10,
-          },
-          noDataPattern: {
-            backgroundColor: grey900,
-            color: grey900,
           },
         };
       },
@@ -107,7 +100,6 @@ export default class ChartItemBinary extends React.Component {
       }}
       style={{
         padding: '20px',
-        color: grey900,
       }}
     />
   );

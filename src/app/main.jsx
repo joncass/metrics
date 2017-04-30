@@ -1,9 +1,6 @@
 // React library
 import React from 'react';
 
-// Material colors
-import { blueGrey300 } from 'material-ui/styles/colors';
-
 // My library
 import ChartList from './chart/list';
 import Navigation from './navigation';
@@ -43,7 +40,7 @@ export default class Main extends React.Component {
             null
         }
       </div>
-      <div style={{ flex: 1, overflow: 'auto', background: blueGrey300 }}>
+      <div style={{ flex: 1, overflow: 'auto' }}>
         { this.state.loggedIn ? <ChartList /> : null }
       </div>
     </div>

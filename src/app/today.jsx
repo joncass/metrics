@@ -8,6 +8,9 @@ import Chip from 'material-ui/Chip';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
 
+// Material colors
+import { pinkA200 } from 'material-ui/styles/colors';
+
 // Material icons
 import CheckIcon from 'material-ui/svg-icons/action/check-circle';
 
@@ -142,6 +145,7 @@ export default class Today extends React.Component {
           <div>
             <LinearProgress
               style={{ height: 10 }}
+              color={pinkA200}
               mode="determinate"
               value={this.state.percentCompleted}
             />
