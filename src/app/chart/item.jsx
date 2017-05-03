@@ -35,14 +35,19 @@ export default class ChartItem extends React.Component {
       total += entry.number || 0;
     });
 
+    const entriesArray = Object.values(entries || {}).sort((a, b) => (
+      a.date < b.date ? -1 : 1
+    ));
+
     let subtitle;
     if (total) {
       subtitle = `Total ${total}`;
     }
     else {
       const numEntries = Object.keys(entries || {}).length;
-      const dayInYear = DateUtil.dayInYear();
-      const percent = Math.round((numEntries / dayInYear) * 100);
+      const firstDate = DateUtil.stringToDate(entriesArray[0].date);
+      const daysSinceFirstEntry = DateUtil.daysSince(firstDate);
+      const percent = Math.round((numEntries / daysSinceFirstEntry) * 100);
       subtitle = `Consistency ${percent}%`;
     }
 

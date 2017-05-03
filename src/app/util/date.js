@@ -27,10 +27,8 @@ export default {
     const day = Number(dateData[2]);
     return new Date(year, month, day);
   },
-  dayInYear() {
+  daysSince(date) {
     const now = new Date();
-    const janFirst = new Date(now.getFullYear(), 0, 1);
-
-    return (now.getTime() - janFirst.getTime()) / (24 * 60 * 60 * 1000);
+    return (now.getTime() - date.getTime()) / (24 * 60 * 60 * 1000);
   },
 };
