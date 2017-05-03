@@ -59,7 +59,10 @@ export default class Today extends React.Component {
       const val = tasks[key];
       val.key = key;
       return val;
-    });
+    }).filter(task => (
+      // Only return tasks whose metric still exists
+      this.metricForTask(task)
+    ));
 
     this.setState({ tasks: taskArray });
     this.setPercentCompleted(taskArray);
