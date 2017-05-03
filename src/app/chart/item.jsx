@@ -35,20 +35,24 @@ export default class ChartItem extends React.Component {
       total += entry.number || 0;
     });
 
-    const entriesArray = Object.values(entries || {}).sort((a, b) => (
-      a.date < b.date ? -1 : 1
-    ));
-
     let subtitle;
     if (total) {
       subtitle = `Total ${total}`;
     }
     else {
-      const numEntries = Object.keys(entries || {}).length;
-      const firstDate = DateUtil.stringToDate(entriesArray[0].date);
-      const daysSinceFirstEntry = DateUtil.daysSince(firstDate);
-      const percent = Math.round((numEntries / daysSinceFirstEntry) * 100);
-      subtitle = `Consistency ${percent}%`;
+      const recentSortedEntries = Object.values(entries || {}).filter(entry => (
+        entry.date > DateUtil.startOfLastYear()
+      )).sort((a, b) => (
+        a.date < b.date ? -1 : 1
+      ));
+
+      if (recentSortedEntries.length) {
+        const numEntries = recentSortedEntries.length;
+        const firstDate = DateUtil.stringToDate(recentSortedEntries[0].date);
+        const daysSinceFirstEntry = DateUtil.daysSince(firstDate);
+        const percent = Math.round((numEntries / daysSinceFirstEntry) * 100);
+        subtitle = `Consistency ${percent}%`;
+      }
     }
 
     this.setState({ subtitle });

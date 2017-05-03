@@ -31,4 +31,9 @@ export default {
     const now = new Date();
     return (now.getTime() - date.getTime()) / (24 * 60 * 60 * 1000);
   },
+  startOfLastYear() {
+    const lastYear = (new Date()).getFullYear() - 1;
+    const janFirstOfLastYear = new Date(lastYear, 0, 1);
+    return this.toString(janFirstOfLastYear);
+  },
 };

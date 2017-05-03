@@ -44,7 +44,9 @@ export default class ChartItemBinary extends React.Component {
   }
 
   setChartData = (entries) => {
-    const entriesArray = Object.keys(entries || {}).map((key) => {
+    const entriesArray = Object.keys(entries || {}).filter(key => (
+      entries[key].date > DateUtil.startOfLastYear()
+    )).map((key) => {
       const entry = entries[key];
       return [
         DateUtil.stringToDate(entry.date),
