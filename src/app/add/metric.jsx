@@ -9,7 +9,7 @@ import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
 
 // My library
-import Data from '../data';
+import MetricData from '../data/metric';
 import MetricTypeUtil from '../util/metric/type';
 
 export default class AddMetric extends React.Component {
@@ -40,7 +40,7 @@ export default class AddMetric extends React.Component {
   }
 
   saveMetric = () => {
-    Data.addToUserArray('metric', {
+    MetricData.addMetric({
       name: this.state.metricName,
       type: this.state.metricType,
     });

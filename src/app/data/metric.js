@@ -12,4 +12,7 @@ export default {
   deleteMetric(metricID) {
     Data.deleteUser(`metric/${metricID}`);
   },
+  addMetric(metric) {
+    Data.addToUserArray('metric', metric);
+  },
 };

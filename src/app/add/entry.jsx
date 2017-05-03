@@ -11,8 +11,8 @@ import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 
 // My library
-import Data from '../data';
 import EntryData from '../data/entry';
+import MetricData from '../data/metric';
 import Util from '../util/metric/type';
 
 export default class AddEntry extends React.Component {
@@ -24,7 +24,7 @@ export default class AddEntry extends React.Component {
       dateRange: false,
     };
 
-    Data.readUserAndListen('metric', this.setMetrics);
+    MetricData.getMetricsAndListen(this.setMetrics);
   }
 
   setMetrics = (metrics) => {

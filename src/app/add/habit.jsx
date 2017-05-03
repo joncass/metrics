@@ -9,7 +9,8 @@ import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
 
 // My library
-import Data from '../data';
+import HabitData from '../data/habit';
+import MetricData from '../data/metric';
 import Util from '../util/metric/type';
 
 export default class AddHabit extends React.Component {
@@ -20,7 +21,7 @@ export default class AddHabit extends React.Component {
       metrics: [],
     };
 
-    Data.readUserAndListen('metric', this.setMetrics);
+    MetricData.getMetricsAndListen(this.setMetrics);
   }
 
   setMetrics = (metrics) => {
@@ -48,7 +49,7 @@ export default class AddHabit extends React.Component {
       habitToSave.number = Number(this.state.entryNumber);
     }
 
-    Data.addToUserArray('habit', habitToSave);
+    HabitData.addHabit(habitToSave);
     this.resetState();
   }
 

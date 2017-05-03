@@ -6,8 +6,8 @@ import { Tab, Tabs } from 'material-ui/Tabs';
 
 // My library
 import ChartItem from '../chart/item';
-import Data from '../data';
 import Loading from '../components/loading';
+import MetricData from '../data/metric';
 import UserWelcome from '../welcome/user';
 
 export default class Charts extends React.Component {
@@ -16,7 +16,7 @@ export default class Charts extends React.Component {
 
     this.state = {};
 
-    Data.readUserAndListen('metric', this.setMetrics);
+    MetricData.getMetricsAndListen(this.setMetrics);
   }
 
   setMetrics = (metrics) => {

@@ -14,4 +14,7 @@ export default {
 
     Data.writeUser(`habit/${currentTask.key}`, currentTask);
   },
+  addHabit(habitToSave) {
+    Data.addToUserArray('habit', habitToSave);
+  },
 };
