@@ -9,7 +9,7 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import FlatButton from 'material-ui/FlatButton';
 
 // My library
-import Confirm from '../confirm';
+import Confirm from '../components/confirm';
 import DateUtil from '../util/date';
 import EntryData from '../data/entry';
 import MetricData from '../data/metric';

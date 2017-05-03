@@ -7,15 +7,14 @@ import { Tab, Tabs } from 'material-ui/Tabs';
 // My library
 import ChartItem from '../chart/item';
 import Data from '../data';
+import Loading from '../components/loading';
 import UserWelcome from '../welcome/user';
 
 export default class Charts extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      metrics: [],
-    };
+    this.state = {};
 
     Data.readUserAndListen('metric', this.setMetrics);
   }
@@ -33,24 +32,39 @@ export default class Charts extends React.Component {
   render = () => (
     <div>
       {
-        this.state.metrics.length
+        this.state.metrics
         ?
-          <Tabs>
+          <div>
             {
-              this.state.metrics.map(metric => (
-                <Tab
-                  label={metric.name}
-                  key={metric.key}
-                >
-                  <ChartItem
-                    metricID={metric.key}
-                  />
-                </Tab>
-              ))
+              this.state.metrics.length
+              ?
+                <Tabs>
+                  {
+                    this.state.metrics.map(metric => (
+                      <Tab
+                        label={metric.name}
+                        key={metric.key}
+                      >
+                        <ChartItem
+                          metricID={metric.key}
+                        />
+                      </Tab>
+                    ))
+                  }
+                </Tabs>
+              :
+                <UserWelcome />
             }
-          </Tabs>
+          </div>
         :
-          <UserWelcome />
+          null
+      }
+      {
+        !this.state.metrics
+        ?
+          <Loading />
+        :
+          null
       }
     </div>
   );

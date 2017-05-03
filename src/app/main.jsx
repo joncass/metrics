@@ -4,6 +4,7 @@ import React from 'react';
 // My library
 import ChartList from './chart/list';
 import GuestWelcome from './welcome/guest';
+import Loading from './components/loading';
 import Navigation from './navigation';
 import Today from './today';
 
@@ -12,15 +13,18 @@ export default class Main extends React.Component {
     super(props);
     this.state = {
       loggedIn: false,
+      logInStateChecked: false,
     };
   }
 
   logOut = () => {
     this.setState({ loggedIn: false });
+    this.setState({ logInStateChecked: true });
   }
 
   logIn = () => {
     this.setState({ loggedIn: true });
+    this.setState({ logInStateChecked: true });
   }
 
   render = () => (
@@ -41,15 +45,21 @@ export default class Main extends React.Component {
             null
         }
       </div>
-      <div style={{ flex: 1, overflow: 'auto' }}>
-        {
-          this.state.loggedIn
-          ?
-            <ChartList />
-          :
-            <GuestWelcome />
-        }
-      </div>
+      {
+        this.state.logInStateChecked
+        ?
+          <div style={{ flex: 1, overflow: 'auto' }}>
+            {
+              this.state.loggedIn
+              ?
+                <ChartList />
+              :
+                <GuestWelcome />
+            }
+          </div>
+        :
+          <Loading />
+      }
     </div>
   );
 }
