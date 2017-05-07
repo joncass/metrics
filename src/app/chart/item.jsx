@@ -50,7 +50,7 @@ export default class ChartItem extends React.Component {
         const numEntries = recentSortedEntries.length;
         const firstDate = DateUtil.stringToDate(recentSortedEntries[0].date);
         const daysSinceFirstEntry = DateUtil.daysSince(firstDate);
-        const percent = Math.round((numEntries / daysSinceFirstEntry) * 100);
+        const percent = Math.floor((numEntries / daysSinceFirstEntry) * 100);
         subtitle = `Consistency ${percent}%`;
       }
     }
